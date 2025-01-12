@@ -1,10 +1,12 @@
+import { useLisiereStore } from '@/store-provider';
 import Image from 'next/image';
 
 export default function Footer() {
+  const { exif } = useLisiereStore((state) => state)
   return (
     <div className="bg-slate-50 h-14 p-3 w-full flex flex-row">
         <div className='flex flex-col flex-grow'>
-          <p className='text-gray-800 text-5xs font-medium'>ISO1600 26mm f1.5 1/14s</p>
+          <p className='text-gray-800 text-5xs font-medium'>{`${exif.iso} 26mm f1.5 1/14s`}</p>
           <p className='text-gray-800 text-5xs font-extralight'>28 Dec, 2024</p>
         </div>
         <div className='flex flex-row items-center justify-end w-20'>
