@@ -2,12 +2,15 @@ import { useLisiereStore } from '@/store-provider';
 import Image from 'next/image';
 
 export default function Footer() {
-  const { exif } = useLisiereStore((state) => state)
+  const { exif, timestamp } = useLisiereStore((state) => state);
+  const formattedTimestamp = formatDate(timestamp);
   return (
     <div className="bg-slate-50 h-14 p-3 w-full flex flex-row">
         <div className='flex flex-col flex-grow'>
-          <p className='text-gray-800 text-5xs font-medium'>{`${exif.iso} 26mm f1.5 1/14s`}</p>
-          <p className='text-gray-800 text-5xs font-extralight'>28 Dec, 2024</p>
+          <p className='text-gray-800 text-5xs font-medium'>
+            {`${exif.iso} ${exif.focalLength}mm f${exif.fstop} ${exif.speed}s`}
+          </p>
+          <p className='text-gray-800 text-5xs font-extralight'>{`${formattedTimestamp}`}</p>
         </div>
         <div className='flex flex-row items-center justify-end w-20'>
           <Image
@@ -24,4 +27,16 @@ export default function Footer() {
         </div>
       </div>
   );
+}
+
+function formatDate(date: Date) {
+  if (!(date instanceof Date)) {
+      return "Invalid Date";
+  }
+
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+}).replace(/(\d+)\s(\w+)\s(\d+)/, "$1 $2 $3");
 }

@@ -1,11 +1,12 @@
 'use client'
 
+import DatePicker from '@/components/DatePicker';
 import Footer from '@/components/Footer';
 import { useLisiereStore } from '@/store-provider';
 import Image from 'next/image';
 
 export default function Home() {
-  const { setIso } = useLisiereStore((state) => state)
+  const { setIso, setFocalLength, setFstop, setSpeed, setTimestamp } = useLisiereStore((state) => state);
   return (
     <div className=" w-96 items-center justify-items-center min-h-screen p-3 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <Image
@@ -17,17 +18,62 @@ export default function Home() {
       <Footer />
       {/* Form container */}
       <div className='border-l-rose-400 border w-full mt-4 p-1 flex flex-col'>
-        <label htmlFor="iso" className='text-violet-50'>
-          ISO:
-        </label>
+        <label htmlFor="iso" className='text-violet-50'>ISO:</label>
+        <select
+          value={50}
+          onChange={e => setIso(parseInt(e.target.value))}
+        >
+          <option value="50">ISO 50</option>
+          <option value="100">ISO 100</option>
+          <option value="150">ISO 150</option>
+          <option value="200">ISO 200</option>
+          <option value="400">ISO 400</option>
+          <option value="800">ISO 800</option>
+          <option value="1600">ISO 1600</option>
+          <option value="3200">ISO 3200</option>
+          <option value="6400">ISO 6400</option>
+          <option value="12800">ISO 12800</option>
+          <option value="25600">ISO 25600</option>
+          <option value="51200">ISO 51200</option>
+          <option value="102400">ISO 102400</option>
+        </select>
+        <label htmlFor="focalLength" className='text-violet-50'>Focal Length:</label>
         <input
-          className='text-gray-800'
-          type="text"
-          id="iso"
-          name="iso"
-          size={3}
+          id={"focalLength"}
+          name={"focal length"}
+          type='text'
           onChange={(e) => {
-            setIso(parseInt(e.target.value))
+            if(parseInt(e.currentTarget.value)){
+              setFocalLength(parseInt(e.currentTarget.value));
+            }
+          }}
+        />
+        <label htmlFor="fstop" className='text-violet-50'>f-stop:</label>
+        <input
+          id={"fstop"}
+          name={"fstop"}
+          type='text'
+          onChange={(e) => {
+            if(parseInt(e.currentTarget.value)){
+              setFstop(parseInt(e.currentTarget.value));
+            }
+          }}
+        />
+        <label htmlFor="speed" className='text-violet-50'>Shutter speed:</label>
+        <input
+          id={"speed"}
+          name={"speed"}
+          type='text'
+          onChange={(e) => {
+            setSpeed(e.currentTarget.value);
+          }}
+        />
+        <DatePicker
+          initialDate='2025-01-13'
+          minDate='1990-01-01'
+          maxDate='2025-01-13'
+          onDateChange={(val) => {
+            setTimestamp(val);
           }}
         />
       </div>
