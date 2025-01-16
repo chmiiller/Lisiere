@@ -29,11 +29,15 @@ export default function Home() {
       />
       <Footer />
       {/* Form container */}
-      <div className='border-l-rose-400 border w-full mt-4 p-1 flex flex-col'>
+      <div className='w-full mt-4 p-1 flex flex-col'>
         {/* ISO Select */}
         <ISOSelect onChange={value => setIso(value)}/>
         {/* Focal Length */}
-        <InputText id='focalLength' label="Focal Length:" limit={4}
+        <InputText 
+          id='focalLength'
+          label="Focal Length"
+          limit={4}
+          numeric
           onChange={(value) => {
             if(parseInt(value)){
               setFocalLength(parseInt(value));
@@ -41,15 +45,17 @@ export default function Home() {
           }}
         />
         {/* F-Stop */}
-        <InputText id='fstop' label="f-stop:" limit={4}
+        <InputText
+          id='fstop'
+          label="F-stop"
+          limit={4}
+          numeric
           onChange={(value) => {
-            if(parseFloat(value)){
-              setFstop(parseFloat(value));
-            }
+              setFstop(value as unknown as number);
           }}
         />
         {/* Shutter Speed */}
-        <InputText id='speed' label="Shutter speed:"
+        <InputText id='speed' label="Shutter speed"
           onChange={(value) => {
             setSpeed(value);
           }}
@@ -61,19 +67,19 @@ export default function Home() {
           }}
         />
         {/* Camera model */}
-        <InputText id='camera' label="Camera model:"
+        <InputText id='camera' label="Camera model"
           onChange={(value) => {
             setCameraModel(value);
           }}
         />
         {/* Lens Maker */}
-        <InputText id='lens_maker' label="Lens maker:"
+        <InputText id='lens_maker' label="Lens maker"
           onChange={(value) => {
             setLensBrand(value);
           }}
         />
         {/* Lens Model */}
-        <InputText id='lens_model' label="Lens model:"
+        <InputText id='lens_model' label="Lens model"
           onChange={(value) => {
             setLensModel(value);
           }}

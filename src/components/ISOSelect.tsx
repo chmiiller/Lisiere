@@ -23,15 +23,15 @@ const ISOOptions = [
 export default function ISOSelect({ onChange }: ISOSelectProps) {
   const [selectedValue, setSelectedValue] = useState<number>(50);
   return (
-    <div>
+    <div className='flex flex-col'>
       <label
-        className='text-slate-100 ml-1 mt-2 text-sm font-semibold'
+        className='text-slate-200 ml-1 mt-2 mb-1 text-base font-bold'
         htmlFor="iso">
-          ISO:
+          ISO
         </label>
       <select
         value={selectedValue}
-        className='bg-slate-800 text-sm p-1 m-1 rounded-md'
+        className='bg-slate-700 p-1 m-1 text-lg w-24 rounded-md leading-relaxed'
         onChange={e => {
           setSelectedValue(parseInt(e.target.value));
           onChange(parseInt(e.target.value));

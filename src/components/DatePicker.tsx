@@ -18,17 +18,17 @@ function DatePicker({ onDateChange } :DatePickerProps) {
   };
 
   return (
-    <div>
+    <div className='flex flex-col'>
       <label
-          htmlFor={"timestamp"}
-          className='text-slate-100 ml-1 mt-2 text-sm font-semibold'>
-            Date:
+          className='text-slate-200 ml-1 mt-2 mb-1 text-base font-bold'
+          htmlFor={"timestamp"} >
+            Date
         </label>
       <input
         id='timestamp'
         name='timestamp'
         type="date"
-        className='bg-slate-800 text-slate-50 text-base p-1 m-1 rounded-md'
+        className='bg-slate-700 text-lg p-1 m-1 rounded-md leading-relaxed'
         value={selectedDate}
         onChange={handleDateChange}
       />
