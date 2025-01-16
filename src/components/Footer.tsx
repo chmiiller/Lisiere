@@ -2,7 +2,13 @@ import { useLisiereStore } from '@/store-provider';
 import Image from 'next/image';
 
 export default function Footer() {
-  const { exif, timestamp } = useLisiereStore((state) => state);
+  const {
+    exif,
+    timestamp,
+    cameraModel,
+    lensBrand,
+    lensModel,
+  } = useLisiereStore((state) => state);
   const formattedTimestamp = formatDate(timestamp);
   return (
     <div className="bg-slate-50 h-14 p-3 w-full flex flex-row">
@@ -22,8 +28,8 @@ export default function Footer() {
           <div className='bg-gray-300 h-full rounded w-px ml-1' />
         </div>
         <div className='flex flex-grow flex-col items-end'>
-          <p className='text-gray-800 text-5xs font-medium'>Apple iPhone 14</p>
-          <p className='text-gray-800 text-5xs font-extralight'>back dual wide camera 5.7mm f1.5</p>
+          <p className='text-gray-800 text-5xs font-medium'>{`Sony ${cameraModel}`}</p>
+          <p className='text-gray-800 text-5xs font-extralight'>{`${lensBrand} ${lensModel}`}</p>
         </div>
       </div>
   );

@@ -6,7 +6,15 @@ import { useLisiereStore } from '@/store-provider';
 import Image from 'next/image';
 
 export default function Home() {
-  const { setIso, setFocalLength, setFstop, setSpeed, setTimestamp } = useLisiereStore((state) => state);
+  const { setIso,
+    setFocalLength,
+    setFstop,
+    setSpeed,
+    setTimestamp,
+    setCameraModel,
+    setLensBrand,
+    setLensModel,
+  } = useLisiereStore((state) => state);
   return (
     <div className=" w-96 items-center justify-items-center min-h-screen p-3 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <Image
@@ -42,6 +50,7 @@ export default function Home() {
           id={"focalLength"}
           name={"focal length"}
           type='text'
+          maxLength={5}
           onChange={(e) => {
             if(parseInt(e.currentTarget.value)){
               setFocalLength(parseInt(e.currentTarget.value));
@@ -53,6 +62,7 @@ export default function Home() {
           id={"fstop"}
           name={"fstop"}
           type='text'
+          maxLength={4}
           onChange={(e) => {
             if(parseInt(e.currentTarget.value)){
               setFstop(parseInt(e.currentTarget.value));
@@ -74,6 +84,33 @@ export default function Home() {
           maxDate='2025-01-13'
           onDateChange={(val) => {
             setTimestamp(val);
+          }}
+        />
+        <label htmlFor="camera" className='text-violet-50'>Camera model:</label>
+        <input
+          id={"camera"}
+          name={"camera"}
+          type='text'
+          onChange={(e) => {
+            setCameraModel(e.currentTarget.value);
+          }}
+        />
+        <label htmlFor="lens_maker" className='text-violet-50'>Lens maker:</label>
+        <input
+          id={"lens_maker"}
+          name={"lens_maker"}
+          type='text'
+          onChange={(e) => {
+            setLensBrand(e.currentTarget.value);
+          }}
+        />
+        <label htmlFor="lens_model" className='text-violet-50'>Lens model:</label>
+        <input
+          id={"lens_model"}
+          name={"lens_model"}
+          type='text'
+          onChange={(e) => {
+            setLensModel(e.currentTarget.value);
           }}
         />
       </div>
