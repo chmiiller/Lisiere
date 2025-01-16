@@ -55,8 +55,7 @@ export default function Home() {
           }}
         />
         {/* Date */}
-        <br />
-        <DatePicker initialDate=""
+        <DatePicker
           onDateChange={(selectedDate: string) => {
             setTimestamp(new Date(selectedDate));
           }}

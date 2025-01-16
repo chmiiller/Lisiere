@@ -14,7 +14,7 @@ export default function Footer() {
     <div className="bg-slate-50 h-14 p-3 w-full flex flex-row">
         <div className='flex flex-col flex-grow'>
           <p className='text-gray-800 text-5xs font-medium'>
-            {`${exif.iso} ${exif.focalLength}mm f${exif.fstop} ${exif.speed}s`}
+            {`ISO ${exif.iso} ${exif.focalLength}mm f${exif.fstop} ${exif.speed}s`}
           </p>
           <p className='text-gray-800 text-5xs font-extralight'>{`${formattedTimestamp}`}</p>
         </div>
