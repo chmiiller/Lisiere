@@ -16,17 +16,14 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## To Do
 
-[] Style Form
-[] Support logos
-[] Image picker
-[] Add border to the real image
+[] Add footer to the real image
 [] Download final image
 [] Host
 
 ### Wishlist
 
-[] Border background color
-[] Border style
+[] Custom footer background color
+[] Custom footer style
 [] Highlight editing field from form
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
