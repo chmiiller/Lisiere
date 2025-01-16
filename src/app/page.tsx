@@ -69,6 +69,7 @@ export default function Home() {
           }}
         />
         <LogoSelect onChange={value => {
+          console.log(`---------------------> value: ${value}`);
           setSelectedIcon(value);
         }}/>
         {/* Camera model */}

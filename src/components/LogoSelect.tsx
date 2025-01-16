@@ -19,10 +19,11 @@ export default function LogoSelect({ onChange }: LogoSelectProps) {
     <div className='flex flex-col'>
       <label
         className='text-slate-200 ml-1 mt-2 mb-1 text-base font-bold'
-        htmlFor="iso">
+        htmlFor="logo">
           Camera logo
         </label>
       <select
+        id='logo'
         value={selectedValue}
         className='bg-slate-700 p-1 m-1 text-lg max-w-28 rounded-md leading-relaxed'
         onChange={e => {
