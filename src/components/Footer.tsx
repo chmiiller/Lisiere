@@ -8,6 +8,7 @@ export default function Footer() {
     cameraModel,
     lensBrand,
     lensModel,
+    selectedIcon,
   } = useLisiereStore((state) => state);
   const formattedTimestamp = formatDate(timestamp);
   return (
@@ -20,7 +21,7 @@ export default function Footer() {
         </div>
         <div className='flex flex-row items-center justify-end w-20'>
           <Image
-            src={'/logo/sony.svg'}
+            src={selectedIcon}
             width={60}
             height={60}
             alt='sony logo'

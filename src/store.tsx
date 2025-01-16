@@ -41,7 +41,7 @@ export const defaultInitState: LisiereState = {
   },
   timestamp: new Date(),
   timeFormat: '',
-  selectedIcon: '',
+  selectedIcon: '/logos/sony.svg',
   cameraBrand: '',
   cameraModel: '',
   lensBrand: '',

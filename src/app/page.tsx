@@ -4,6 +4,7 @@ import DatePicker from '@/components/DatePicker';
 import Footer from '@/components/Footer';
 import InputText from '@/components/InputText';
 import ISOSelect from '@/components/ISOSelect';
+import LogoSelect from '@/components/LogoSelect';
 import { useLisiereStore } from '@/store-provider';
 import Image from 'next/image';
 
@@ -14,6 +15,7 @@ export default function Home() {
     setFstop,
     setSpeed,
     setTimestamp,
+    setSelectedIcon,
     setCameraModel,
     setLensBrand,
     setLensModel,
@@ -66,6 +68,9 @@ export default function Home() {
             setTimestamp(new Date(selectedDate));
           }}
         />
+        <LogoSelect onChange={value => {
+          setSelectedIcon(value);
+        }}/>
         {/* Camera model */}
         <InputText id='camera' label="Camera model"
           onChange={(value) => {
