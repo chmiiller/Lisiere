@@ -15,6 +15,7 @@ export default function Home() {
     setLensBrand,
     setLensModel,
   } = useLisiereStore((state) => state);
+
   return (
     <div className=" w-96 items-center justify-items-center min-h-screen p-3 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <Image
@@ -79,11 +80,9 @@ export default function Home() {
           }}
         />
         <DatePicker
-          initialDate='2025-01-13'
-          minDate='1990-01-01'
-          maxDate='2025-01-13'
-          onDateChange={(val) => {
-            setTimestamp(val);
+          initialDate=""
+          onDateChange={(selectedDate: string) => {
+            setTimestamp(new Date(selectedDate));
           }}
         />
         <label htmlFor="camera" className='text-violet-50'>Camera model:</label>
