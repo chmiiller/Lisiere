@@ -16,11 +16,11 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## To Do
 
-[] Fix logos size
-[] Support more camera brands
-[] Use camera brand from logo for name
 [] Add footer to the real image
+[] Read real EXIF
 [] Download final image
+[] General style
+[] A11y
 [] Host
 
 ### Wishlist

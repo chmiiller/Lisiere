@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 
 type LogoSelectProps = {
-  onChange: (value: string) => void;
+  onChange: (item: LogoOption) => void;
 }
 
-const LogoOptions = [
-  {name: 'Sony', url: '/logos/sony.png'},
-  {name: 'Nikon', url: '/logos/nikon.png'},
-  {name: 'Canon', url: '/logos/canon.png'},
-  {name: 'Leica', url: '/logos/leica.png'},
-  {name: 'Go Pro', url: '/logos/gopro.png'},
-  {name: 'Olympus', url: '/logos/olympus.png'},
+export type LogoOption = {
+  name: 'Sony' | 'Nikon' | 'Canon' | 'Leica' | 'Go Pro' | 'Olympus';
+  url: string;
+};
+
+const LogoOptions: LogoOption[] = [
+  { name: 'Sony', url: '/logos/sony.png' },
+  { name: 'Nikon', url: '/logos/nikon.png' },
+  { name: 'Canon', url: '/logos/canon.png' },
+  { name: 'Leica', url: '/logos/leica.png' },
+  { name: 'Go Pro', url: '/logos/gopro.png' },
+  { name: 'Olympus', url: '/logos/olympus.png' },
 ];
 
 export default function LogoSelect({ onChange }: LogoSelectProps) {
@@ -26,16 +31,25 @@ export default function LogoSelect({ onChange }: LogoSelectProps) {
         id='logo'
         value={selectedValue}
         className='bg-slate-700 p-1 m-1 text-lg max-w-28 rounded-md leading-relaxed'
-        onChange={e => {
-          setSelectedValue(e.target.value);
-          onChange(e.target.value);
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+          const selectedValue = e.currentTarget.value;
+          setSelectedValue(selectedValue);
+          const item = LogoOptions.find(item => item.url === selectedValue);
+          if (item && onChange) {
+            onChange(item);
+          }
         }}
       >
-        {LogoOptions.map((option) => {
-          return (
-            <option key={option.name} value={option.url}>{option.name}</option>
-          );
-        })}
+        {LogoOptions.map((option) => (
+            <option
+              key={option.name}
+              value={option.url}
+              title={option.name}
+            >
+                {option.name}
+            </option>
+          )
+        )}
       </select>
     </div>
   );  

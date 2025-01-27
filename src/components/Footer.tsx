@@ -5,6 +5,7 @@ export default function Footer() {
   const {
     exif,
     timestamp,
+    cameraBrand,
     cameraModel,
     lensBrand,
     lensModel,
@@ -29,7 +30,7 @@ export default function Footer() {
           <div className='bg-gray-300 h-full rounded w-px ml-1' />
         </div>
         <div className='flex flex-grow flex-col items-end'>
-          <p className='text-gray-800 text-5xs font-medium'>{`Sony ${cameraModel}`}</p>
+          <p className='text-gray-800 text-5xs font-medium'>{`${cameraBrand} ${cameraModel}`}</p>
           <p className='text-gray-800 text-5xs font-extralight'>{`${lensBrand} ${lensModel}`}</p>
         </div>
       </div>

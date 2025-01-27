@@ -4,7 +4,7 @@ import DatePicker from '@/components/DatePicker';
 import Footer from '@/components/Footer';
 import InputText from '@/components/InputText';
 import ISOSelect from '@/components/ISOSelect';
-import LogoSelect from '@/components/LogoSelect';
+import LogoSelect, { LogoOption } from '@/components/LogoSelect';
 import { useLisiereStore } from '@/store-provider';
 import Image from 'next/image';
 
@@ -17,6 +17,7 @@ export default function Home() {
     setTimestamp,
     setSelectedIcon,
     setCameraModel,
+    setCameraBrand,
     setLensBrand,
     setLensModel,
   } = useLisiereStore((state) => state);
@@ -68,9 +69,9 @@ export default function Home() {
             setTimestamp(new Date(selectedDate));
           }}
         />
-        <LogoSelect onChange={value => {
-          console.log(`---------------------> value: ${value}`);
-          setSelectedIcon(value);
+        <LogoSelect onChange={(item: LogoOption) => {
+          setCameraBrand(item.name);
+          setSelectedIcon(item.url);
         }}/>
         {/* Camera model */}
         <InputText id='camera' label="Camera model"
