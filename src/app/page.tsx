@@ -1,5 +1,6 @@
 'use client'
 
+import Button from '@/components/Button';
 import DatePicker from '@/components/DatePicker';
 import Footer from '@/components/Footer';
 import InputText from '@/components/InputText';
@@ -8,6 +9,8 @@ import LogoSelect, { LogoOption } from '@/components/LogoSelect';
 import { useLisiereStore } from '@/store-provider';
 import html2canvas from 'html2canvas';
 import { useRef } from 'react';
+
+import { Download, ArrowUpFromLine } from 'lucide-react';
 
 export default function Home() {
   const {
@@ -43,18 +46,13 @@ export default function Home() {
 
   return (
     <div className=" w-96 items-center justify-items-center min-h-screen p-3 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      {/* Image and Footer to be rendered in the end */}
       <div id='canvas-container' ref={containerRef}>
-        <img
-          src={'/sample.jpg'}
-          alt='sample image'
-          width={'100%'}
-          height={'auto'}
-        />
+        <img src={'/sample.jpg'} alt='sample image' />
         <Footer />
       </div>
-      <button onClick={() => {
-        createImage();
-      }}>Download Image</button>
+      <DownloadButton onClick={createImage}/>
+      
       {/* Form container */}
       <div className='w-full mt-4 p-1 flex flex-col'>
         {/* ISO Select */}
@@ -115,7 +113,34 @@ export default function Home() {
             setLensModel(value);
           }}
         />
+        <UpButton />
       </div>
+    </div>
+  );
+}
+
+const DownloadButton = ({ onClick }: {onClick: () => void}) => {
+  return (
+    <div className='mt-3 w-full flex justify-end'>
+      <Button
+        title={'Download'}
+        onClick={onClick}>
+        <Download size={18}/>
+      </Button>
+    </div>
+  );
+}
+
+const UpButton = () => {
+  return (
+    <div className='mt-4 w-full flex justify-start'>
+      <Button
+        title={'Done'}
+        onClick={() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}>
+        <ArrowUpFromLine size={18}/>
+      </Button>
     </div>
   );
 }

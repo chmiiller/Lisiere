@@ -16,9 +16,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## To Do
 
-[] Add footer to the real image
+[] Read image from device
 [] Read real EXIF
-[] Download final image
 [] General style
 [] A11y
 [] Host
@@ -28,6 +27,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 [] Custom footer background color
 [] Custom footer style
 [] Highlight editing field from form
+[] Save some preferences
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 

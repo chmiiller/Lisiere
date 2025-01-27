@@ -25,7 +25,7 @@ export default function ISOSelect({ onChange }: ISOSelectProps) {
   return (
     <div className='flex flex-col'>
       <label
-        className='text-slate-200 ml-1 mt-2 mb-1 text-base font-bold'
+        className='text-slate-200 ml-1 mb-1 text-base font-bold'
         htmlFor="iso">
           ISO
         </label>

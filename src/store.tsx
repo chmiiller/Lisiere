@@ -36,8 +36,8 @@ export const defaultInitState: LisiereState = {
   exif: {
     iso: 1600,
     focalLength: 26,
-    fstop: 1.5,
-    speed: '1/14s',
+    fstop: 4.5,
+    speed: '1/250',
   },
   timestamp: new Date(),
   timeFormat: '',
