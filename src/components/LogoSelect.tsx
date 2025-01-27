@@ -5,12 +5,12 @@ type LogoSelectProps = {
 }
 
 const LogoOptions = [
-  {name: 'Sony', url: '/logos/sony.svg'},
-  {name: 'Nikon', url: '/logos/nikon.svg'},
-  {name: 'Canon', url: '/logos/canon.svg'},
-  {name: 'Leica', url: '/logos/leica.svg'},
-  {name: 'Go Pro', url: '/logos/gopro.svg'},
-  {name: 'Olympus', url: '/logos/olympus.svg'},
+  {name: 'Sony', url: '/logos/sony.png'},
+  {name: 'Nikon', url: '/logos/nikon.png'},
+  {name: 'Canon', url: '/logos/canon.png'},
+  {name: 'Leica', url: '/logos/leica.png'},
+  {name: 'Go Pro', url: '/logos/gopro.png'},
+  {name: 'Olympus', url: '/logos/olympus.png'},
 ];
 
 export default function LogoSelect({ onChange }: LogoSelectProps) {
