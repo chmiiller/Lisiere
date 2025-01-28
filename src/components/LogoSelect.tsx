@@ -5,7 +5,7 @@ type LogoSelectProps = {
 }
 
 export type LogoOption = {
-  name: 'Sony' | 'Nikon' | 'Canon' | 'Leica' | 'Go Pro' | 'Olympus';
+  name: 'Sony' | 'Nikon' | 'Canon' | 'Leica' | 'Go Pro' | 'Olympus' | 'Apple' | 'Samsung';
   url: string;
 };
 
@@ -16,6 +16,8 @@ const LogoOptions: LogoOption[] = [
   { name: 'Leica', url: '/logos/leica.png' },
   { name: 'Go Pro', url: '/logos/gopro.png' },
   { name: 'Olympus', url: '/logos/olympus.png' },
+  { name: 'Apple', url: '/logos/apple.png' },
+  { name: 'Samsung', url: '/logos/samsung.png' },
 ];
 
 export default function LogoSelect({ onChange }: LogoSelectProps) {

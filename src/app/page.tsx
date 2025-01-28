@@ -28,7 +28,7 @@ export default function Home() {
     setLensModel,
   } = useLisiereStore((state) => state);
 
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [imagePath, setImagePath] = useState<string>("");
 
   const createImage = () => {
@@ -54,7 +54,7 @@ export default function Home() {
         {imagePath && <img src={imagePath} alt='uploaded image' />}
         {!imagePath && (
           <FilePicker onImageSelected={(imagePath) => {
-            setImagePath(imagePath)
+            setImagePath(imagePath);
           }}/>
         )}
         <Footer />

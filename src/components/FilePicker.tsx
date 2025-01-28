@@ -1,5 +1,20 @@
 import { useRef, useState } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
+import ExifReader from 'exifreader';
+
+export type EXIFData = {
+  Make: string;
+  Model: string;
+  DateTime: string;
+  ExposureTime: number;
+  FNumber: number;
+  ISOSpeedRatings: number;
+  ShutterSpeedValue: number;
+  ApertureValue: number;
+  FocalLength: number;
+  LensMake: string;
+  LensModel: string;
+}
 
 type FilePickerProps = {
   onImageSelected: (fileUrl: string) => void;
@@ -17,6 +32,7 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
       } else {
         const file = curFiles[0];
         if (validFileType(file)) {
+          readExif(file);
           const imageSrc = URL.createObjectURL(file);
           onImageSelected(imageSrc);
         } else {
@@ -24,6 +40,40 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
         }
       }
     }
+  }
+
+  const readExif = async(file: File) => {
+    const tags = await ExifReader.load(file);
+    const imageDate = tags['DateTimeOriginal']?.description;
+    console.log(`imageDate: ${imageDate}`);
+    const brand = tags['Make']?.value;
+    console.log(`brand: ${brand}`);
+    const model = tags['Model']?.value;
+    console.log(`model: ${model}`);
+    const timestamp = tags['DateTimeOriginal']?.value;
+    console.log(`timestamp: ${timestamp}`);
+    const exposure = tags['ExposureTime']?.value;
+    console.log(`exposure: ${exposure}`);
+    const fnumber = tags['FNumber']?.value;
+    console.log(`fnumber: ${fnumber}`);
+    const iso = tags['ISOSpeedRatings']?.value;
+    console.log(`iso: ${iso}`);
+    const shutter = tags['ShutterSpeedValue']?.value;
+    console.log(`shutter: ${shutter}`);
+    const aperture = tags['ApertureValue']?.value;
+    console.log(`aperture: ${aperture}`);
+    const focalLength = tags['FocalLength']?.value;
+    console.log(`focalLength: ${focalLength}`);
+    const lensSpecification = tags['LensSpecification']?.value;
+    console.log(`lensSpecification: ${lensSpecification}`);
+    const lensMake = tags['LensMake'];
+    console.log(`lensMake: ${JSON.stringify(lensMake)}`);
+    const lensModel = tags['LensModel']?.value;
+    console.log(`lensModel: ${lensModel}`);
+    const lensId = tags['Lens']?.value;
+    console.log(`lensId: ${lensId}`);
+    
+    
   }
 
   return (
