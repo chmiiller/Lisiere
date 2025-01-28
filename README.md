@@ -16,7 +16,6 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## To Do
 
-[] Read image from device
 [] Read real EXIF
 [] General style
 [] A11y
@@ -28,6 +27,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 [] Custom footer style
 [] Highlight editing field from form
 [] Save some preferences
+[] Desktop support
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 

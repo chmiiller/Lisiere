@@ -1,16 +1,18 @@
 'use client'
 
+import { useRef, useState } from 'react';
+import html2canvas from 'html2canvas';
+import { ArrowUpFromLine, Download } from 'lucide-react';
+
+import { useLisiereStore } from '@/store-provider';
+
 import Button from '@/components/Button';
 import DatePicker from '@/components/DatePicker';
 import Footer from '@/components/Footer';
 import InputText from '@/components/InputText';
 import ISOSelect from '@/components/ISOSelect';
 import LogoSelect, { LogoOption } from '@/components/LogoSelect';
-import { useLisiereStore } from '@/store-provider';
-import html2canvas from 'html2canvas';
-import { useRef } from 'react';
-
-import { Download, ArrowUpFromLine } from 'lucide-react';
+import FilePicker from '@/components/FilePicker';
 
 export default function Home() {
   const {
@@ -27,6 +29,7 @@ export default function Home() {
   } = useLisiereStore((state) => state);
 
   const containerRef = useRef(null);
+  const [imagePath, setImagePath] = useState<string>("");
 
   const createImage = () => {
     if(containerRef.current) {
@@ -48,7 +51,12 @@ export default function Home() {
     <div className=" w-96 items-center justify-items-center min-h-screen p-3 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       {/* Image and Footer to be rendered in the end */}
       <div id='canvas-container' ref={containerRef}>
-        <img src={'/sample.jpg'} alt='sample image' />
+        {imagePath && <img src={imagePath} alt='uploaded image' />}
+        {!imagePath && (
+          <FilePicker onImageSelected={(imagePath) => {
+            setImagePath(imagePath)
+          }}/>
+        )}
         <Footer />
       </div>
       <DownloadButton onClick={createImage}/>
