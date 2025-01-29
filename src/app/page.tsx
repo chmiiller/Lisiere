@@ -57,6 +57,7 @@ export default function Home() {
     <div className=" w-96 items-center justify-items-center min-h-screen p-3 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       {/* Image and Footer to be rendered in the end */}
       <div id='canvas-container' ref={containerRef}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         {imagePath && <img src={imagePath} alt='uploaded image' />}
         {!imagePath && (
           <FilePicker onImageSelected={(imagePath) => {

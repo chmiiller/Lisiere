@@ -16,18 +16,12 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## To Do
 
-[] Read real EXIF
+[] Desktop support
 [] General style
+[] Custom footer style
+[] Custom footer background color
 [] A11y
 [] Host
-
-### Wishlist
-
-[] Custom footer background color
-[] Custom footer style
-[] Highlight editing field from form
-[] Save some preferences
-[] Desktop support
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
