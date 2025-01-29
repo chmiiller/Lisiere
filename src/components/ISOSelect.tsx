@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type ISOSelectProps = {
   onChange: (value: number) => void;
+  value?: number;
 }
 
 const ISOOptions = [
@@ -20,8 +21,15 @@ const ISOOptions = [
   102400,
 ];
 
-export default function ISOSelect({ onChange }: ISOSelectProps) {
-  const [selectedValue, setSelectedValue] = useState<number>(50);
+export default function ISOSelect({ onChange, value }: ISOSelectProps) {
+  const [selectedValue, setSelectedValue] = useState<number>(value || 50);
+
+  useEffect(() => {
+    if(value) {
+      setSelectedValue(value);
+    }
+  }, [value]);
+
   return (
     <div className='flex flex-col'>
       <label

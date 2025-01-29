@@ -4,7 +4,7 @@ import { createStore } from 'zustand/vanilla'
 export type Exif = {
   iso: number,
   focalLength: number,
-  fstop: number,
+  fstop: string,
   speed: string,
 };
 export type LisiereState = {
@@ -20,7 +20,7 @@ export type LisiereState = {
 export type LisiereActions = {
   setIso: (iso: number) => void;
   setFocalLength: (focalLength: number) => void;
-  setFstop: (fstop: number) => void;
+  setFstop: (fstop: string) => void;
   setSpeed: (speed: string) => void;
   setTimestamp: (timestamp: Date) => void;
   setTimeFormat: (timeFormat: string) => void;
@@ -34,10 +34,10 @@ export type LisiereStore = LisiereState & LisiereActions
 
 export const defaultInitState: LisiereState = {
   exif: {
-    iso: 1600,
-    focalLength: 26,
-    fstop: 4.5,
-    speed: '1/250',
+    iso: 0,
+    focalLength: 0,
+    fstop: 'f/0',
+    speed: '1/0',
   },
   timestamp: new Date(),
   timeFormat: '',

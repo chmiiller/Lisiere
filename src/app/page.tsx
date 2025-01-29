@@ -26,6 +26,12 @@ export default function Home() {
     setCameraBrand,
     setLensBrand,
     setLensModel,
+    exif,
+    timestamp,
+    cameraBrand,
+    cameraModel,
+    lensBrand,
+    lensModel,
   } = useLisiereStore((state) => state);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -64,13 +70,14 @@ export default function Home() {
       {/* Form container */}
       <div className='w-full mt-4 p-1 flex flex-col'>
         {/* ISO Select */}
-        <ISOSelect onChange={value => setIso(value)}/>
+        <ISOSelect value={exif.iso} onChange={value => setIso(value)}/>
         {/* Focal Length */}
         <InputText 
           id='focalLength'
           label="Focal Length"
           limit={4}
           numeric
+          value={exif.focalLength.toString()}
           onChange={(value) => {
             if(parseInt(value)){
               setFocalLength(parseInt(value));
@@ -83,40 +90,42 @@ export default function Home() {
           label="F-stop"
           limit={4}
           numeric
+          value={exif.fstop}
           onChange={(value) => {
-              setFstop(value as unknown as number);
+              setFstop(value);
           }}
         />
         {/* Shutter Speed */}
-        <InputText id='speed' label="Shutter speed"
+        <InputText id='speed' label="Shutter speed" value={exif.speed}
           onChange={(value) => {
             setSpeed(value);
           }}
         />
         {/* Date */}
         <DatePicker
+          value={timestamp ? timestamp : undefined}
           onDateChange={(selectedDate: string) => {
             setTimestamp(new Date(selectedDate));
           }}
         />
-        <LogoSelect onChange={(item: LogoOption) => {
+        <LogoSelect value={cameraBrand} onChange={(item: LogoOption) => {
           setCameraBrand(item.name);
           setSelectedIcon(item.url);
         }}/>
         {/* Camera model */}
-        <InputText id='camera' label="Camera model"
+        <InputText id='camera' label="Camera model" value={cameraModel}
           onChange={(value) => {
             setCameraModel(value);
           }}
         />
-        {/* Lens Maker */}
-        <InputText id='lens_maker' label="Lens maker"
+        {/* Lens Maker / Brand */}
+        <InputText id='lens_maker' label="Lens maker" value={lensBrand}
           onChange={(value) => {
             setLensBrand(value);
           }}
         />
         {/* Lens Model */}
-        <InputText id='lens_model' label="Lens model"
+        <InputText id='lens_model' label="Lens model" value={lensModel}
           onChange={(value) => {
             setLensModel(value);
           }}

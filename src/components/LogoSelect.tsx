@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type LogoSelectProps = {
   onChange: (item: LogoOption) => void;
+  value?: string;
 }
 
 export type LogoOption = {
-  name: 'Sony' | 'Nikon' | 'Canon' | 'Leica' | 'Go Pro' | 'Olympus' | 'Apple' | 'Samsung';
+  name: 
+  'Sony'
+  | 'Nikon'
+  | 'Canon'
+  | 'Leica'
+  | 'Go Pro'
+  | 'Olympus'
+  | 'Apple'
+  | 'Samsung'
+  | 'Google',
   url: string;
 };
 
-const LogoOptions: LogoOption[] = [
+export const LogoOptions: LogoOption[] = [
   { name: 'Sony', url: '/logos/sony.png' },
   { name: 'Nikon', url: '/logos/nikon.png' },
   { name: 'Canon', url: '/logos/canon.png' },
@@ -18,10 +28,20 @@ const LogoOptions: LogoOption[] = [
   { name: 'Olympus', url: '/logos/olympus.png' },
   { name: 'Apple', url: '/logos/apple.png' },
   { name: 'Samsung', url: '/logos/samsung.png' },
+  { name: 'Google', url: '/logos/google.png' },
 ];
 
-export default function LogoSelect({ onChange }: LogoSelectProps) {
-  const [selectedValue, setSelectedValue] = useState<string>("Sony");
+export default function LogoSelect({ onChange, value }: LogoSelectProps) {
+  const [selectedValue, setSelectedValue] = useState<string>(value || "");
+  useEffect(() => {
+    if(value) {
+      const brandLogo = LogoOptions.find(logo => logo.name.toLowerCase() === value.toLowerCase());
+      if (brandLogo) {
+        setSelectedValue(brandLogo.url);
+      }
+    }
+  }, [value]);
+
   return (
     <div className='flex flex-col'>
       <label

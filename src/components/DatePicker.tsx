@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import { formatDateForPicker } from '@/utils';
+import React, { useEffect, useState } from 'react';
 
 type DatePickerProps = {
-  onDateChange: (selectedDate: string) => void
+  onDateChange: (selectedDate: string) => void;
+  value?: Date;
 };
 
-function DatePicker({ onDateChange } :DatePickerProps) {
-  const today = new Date().toISOString().split('T')[0]; //yyyy-mm-dd
-  const [selectedDate, setSelectedDate] = useState<string>(today);
+function DatePicker({ onDateChange, value } :DatePickerProps) {
+  const today = formatDateForPicker(new Date());
+  const initDate = value ? formatDateForPicker(value) : today;
+  const [selectedDate, setSelectedDate] = useState<string>(initDate);
+  useEffect(() => {
+    if(value) {
+      setSelectedDate(formatDateForPicker(value));
+    }
+  }, [value]);
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const dateValue = e.target.value;
