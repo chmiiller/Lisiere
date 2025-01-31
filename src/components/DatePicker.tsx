@@ -26,7 +26,7 @@ function DatePicker({ onDateChange, value } :DatePickerProps) {
   };
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col max-w-48'>
       <label
           className='text-slate-200 ml-1 mt-2 mb-1 text-base font-bold'
           htmlFor={"timestamp"} >

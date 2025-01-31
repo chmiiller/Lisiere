@@ -54,9 +54,20 @@ export default function Home() {
   }
 
   return (
-    <div className=" w-96 items-center justify-items-center min-h-screen p-3 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className={`
+      flex
+      flex-col
+      items-center
+      w-full
+      sm:bg-slate-800 
+      md:bg-slate-600 
+      lg:bg-slate-400 
+      min-h-screen 
+      p-3 pb-20
+      font-[family-name:var(--font-geist-sans)]`}
+    >
       {/* Image and Footer to be rendered in the end */}
-      <div id='canvas-container' ref={containerRef}>
+      <div className="w-full p-1 h-64 sm:h-80 md:h-96 max-w-4xl" ref={containerRef}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {imagePath && <img src={imagePath} alt='uploaded image' />}
         {!imagePath && (
@@ -66,10 +77,9 @@ export default function Home() {
         )}
         <Footer />
       </div>
-      <DownloadButton onClick={createImage}/>
-      
       {/* Form container */}
-      <div className='w-full mt-4 p-1 flex flex-col'>
+      <div className='flex flex-col w-full mt-1 p-1 max-w-4xl'>
+        <DownloadButton onClick={createImage}/>
         {/* ISO Select */}
         <ISOSelect value={exif.iso} onChange={value => setIso(value)}/>
         {/* Focal Length */}
