@@ -116,7 +116,7 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
   }
 
   return (
-    <div className='flex flex-col items-center justify-center h-4/5 bg-slate-700 rounded-t-md'>
+    <div className='flex flex-col items-center justify-center h-4/5 bg-slate-700'>
       <button
         title={'Upload an image'}
         className='cursor-pointer flex flex-col items-center justify-center w-full'

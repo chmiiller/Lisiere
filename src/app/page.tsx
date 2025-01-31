@@ -42,7 +42,7 @@ export default function Home() {
       const container = containerRef.current;
       html2canvas(container).then((canvas) => {
         // Convert the canvas to a JPG image
-        const image = canvas.toDataURL("image/jpeg", 0.8);
+        const image = canvas.toDataURL("image/jpeg", 1.0);
 
         // Create a link to download the image
         const link = document.createElement("a");
@@ -53,21 +53,22 @@ export default function Home() {
     }
   }
 
+  // testing BG colors: sm:bg-slate-800 md:bg-slate-600 lg:bg-slate-400
   return (
     <div className={`
       flex
       flex-col
       items-center
+      justify-center
       w-full
-      sm:bg-slate-800 
-      md:bg-slate-600 
-      lg:bg-slate-400 
       min-h-screen 
       p-3 pb-20
       font-[family-name:var(--font-geist-sans)]`}
     >
       {/* Image and Footer to be rendered in the end */}
-      <div className="w-full p-1 h-64 sm:h-80 md:h-96 max-w-4xl" ref={containerRef}>
+      {/* Best CSS for Image Picker */}
+      {/* <div className="flex flex-col w-full p-1 h-64 sm:h-80 md:h-96 max-w-4xl" ref={containerRef}> */}
+      <div className="flex flex-col w-full p-1 items-center max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg" ref={containerRef}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {imagePath && <img src={imagePath} alt='uploaded image' />}
         {!imagePath && (
