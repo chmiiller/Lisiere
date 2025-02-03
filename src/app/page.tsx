@@ -53,7 +53,6 @@ export default function Home() {
     }
   }
 
-  // testing BG colors: sm:bg-slate-800 md:bg-slate-600 lg:bg-slate-400
   return (
     <div className={`
       flex
@@ -65,18 +64,20 @@ export default function Home() {
       p-3 pb-20
       font-[family-name:var(--font-geist-sans)]`}
     >
-      {/* Image and Footer to be rendered in the end */}
-      {/* Best CSS for Image Picker */}
-      {/* <div className="flex flex-col w-full p-1 h-64 sm:h-80 md:h-96 max-w-4xl" ref={containerRef}> */}
-      <div className="flex flex-col w-full p-1 items-center max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg" ref={containerRef}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        {imagePath && <img src={imagePath} alt='uploaded image' />}
+      <div className="flex flex-col w-full p-1 max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg">
+        {imagePath && (
+          // Image and Footer to be rendered in the end
+          <div ref={containerRef}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={imagePath} alt='uploaded image' />
+            <Footer />
+          </div>
+        )}
         {!imagePath && (
           <FilePicker onImageSelected={(imagePath) => {
             setImagePath(imagePath);
           }}/>
         )}
-        <Footer />
       </div>
       {/* Form container */}
       <div className='flex flex-col w-full mt-1 p-1 max-w-4xl'>
@@ -150,7 +151,7 @@ export default function Home() {
 
 const DownloadButton = ({ onClick }: {onClick: () => void}) => {
   return (
-    <div className='mt-3 w-full flex justify-end'>
+    <div className='mt-3 w-full flex justify-center'>
       <Button
         title={'Download'}
         onClick={onClick}>

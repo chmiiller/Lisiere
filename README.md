@@ -16,7 +16,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## To Do
 
-[] Desktop support
+[X] Desktop support
 [] General style
 [] Custom footer style
 [] Custom footer background color

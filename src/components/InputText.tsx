@@ -27,7 +27,7 @@ export default function InputText({ id, label, limit, numeric, value, onChange }
         </label>
       )}
       <input
-        className='bg-slate-700 text-base p-1 m-1 w-20 rounded-md leading-relaxed'
+        className='bg-slate-700 text-base p-1 m-1 min-w-1 max-w-60 rounded-md leading-relaxed'
         inputMode={numeric ? "decimal" : "text"}
         id={id}
         name={id}
