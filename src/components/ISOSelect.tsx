@@ -32,12 +32,12 @@ export default function ISOSelect({ onChange, value }: ISOSelectProps) {
 
   return (
     <div className='flex flex-col'>
-      <label
-        className='text-slate-200 ml-1 mb-1 text-base font-bold'
-        htmlFor="iso">
-          ISO
-        </label>
+      <label className='text-slate-200 ml-1 mb-1 text-base font-bold' htmlFor="ISO select">
+        ISO
+      </label>
       <select
+        id='ISO select'
+        name='ISO select'
         value={selectedValue}
         className='bg-slate-700 p-1 m-1 text-lg w-24 rounded-md leading-relaxed'
         onChange={e => {

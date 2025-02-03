@@ -46,11 +46,12 @@ export default function LogoSelect({ onChange, value }: LogoSelectProps) {
     <div className='flex flex-col'>
       <label
         className='text-slate-200 ml-1 mt-2 mb-1 text-base font-bold'
-        htmlFor="logo">
+        htmlFor="camera logo">
           Camera logo
         </label>
       <select
-        id='logo'
+        id='camera logo'
+        name='camera logo'
         value={selectedValue}
         className='bg-slate-700 p-1 m-1 text-lg max-w-28 rounded-md leading-relaxed'
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
