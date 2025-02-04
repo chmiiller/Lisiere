@@ -98,18 +98,13 @@ export default function Home() {
           }}
         />
         {/* F-Stop */}
-        <InputText
-          id='fstop'
-          label="F-stop"
-          limit={4}
-          numeric
-          value={exif.fstop}
+        <InputText id='fstop' label="F-stop" limit={4} numeric value={exif.fstop}
           onChange={(value) => {
               setFstop(value);
           }}
         />
         {/* Shutter Speed */}
-        <InputText id='speed' label="Shutter speed" value={exif.speed}
+        <InputText id='speed' label="Shutter speed" limit={4} value={exif.speed}
           onChange={(value) => {
             setSpeed(value);
           }}

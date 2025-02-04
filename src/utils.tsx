@@ -10,3 +10,12 @@ export function exifTimestampAsDate(timestampString: string): Date {
 export function formatDateForPicker(date: Date): string {
   return date.toISOString().split('T')[0]; 
 }
+
+// shortens a string length to limit. Ex: f/1.7799999713 becomes f/1.77
+export function shortString(original: string, limit: number): string {
+  if (original.length > limit) {
+    return original.substring(0, limit);
+  } else {
+    return original;
+  }
+}

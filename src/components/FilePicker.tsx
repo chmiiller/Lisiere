@@ -3,7 +3,7 @@ import { Image as ImageIcon } from 'lucide-react';
 import ExifReader from 'exifreader';
 import { useLisiereStore } from '@/store-provider';
 import { LogoOptions } from './LogoSelect';
-import { exifTimestampAsDate } from '@/utils';
+import { exifTimestampAsDate, shortString } from '@/utils';
 
 export type EXIFData = {
   Make: string;
@@ -83,19 +83,20 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
     // EXPOSURE (SPEED)
     const exposure = tags['ExposureTime']?.description;
     if (exposure) {
-      setSpeed(exposure);
+      setSpeed(shortString(exposure, 6));
     }
     // F NUMBER
     const fnumber = tags['FNumber']?.description;
     if (fnumber) {
-      setFstop(fnumber);
+      setFstop(shortString(fnumber, 6));
     }
     // FOCAL LENGTH
     const focalLength = tags['FocalLength']?.value;
     if (focalLength) {
       const [num, den] = focalLength.toString().split(",");
       if (num && den) {
-        setFocalLength(parseInt(num)/parseInt(den));
+        const focalLengthFixed = (parseFloat(num)/parseFloat(den)).toFixed(2);
+        setFocalLength(parseFloat(focalLengthFixed));
       }
     }
     // ISO
