@@ -1,23 +1,7 @@
 import { useRef, useState } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
-import ExifReader from 'exifreader';
 import { useLisiereStore } from '@/store-provider';
-import { LogoOptions } from './LogoSelect';
-import { exifTimestampAsDate, shortString } from '@/utils';
-
-export type EXIFData = {
-  Make: string;
-  Model: string;
-  DateTime: string;
-  ExposureTime: number;
-  FNumber: number;
-  ISOSpeedRatings: number;
-  ShutterSpeedValue: number;
-  ApertureValue: number;
-  FocalLength: number;
-  LensMake: string;
-  LensModel: string;
-}
+import { getValidFileType, parseExif } from '@/utils';
 
 type FilePickerProps = {
   onImageSelected: (fileUrl: string) => void;
@@ -47,7 +31,7 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
         setErrorMessage('no image selected');
       } else {
         const file = curFiles[0];
-        if (validFileType(file)) {
+        if (getValidFileType(file)) {
           readExif(file);
           const imageSrc = URL.createObjectURL(file);
           onImageSelected(imageSrc);
@@ -59,60 +43,36 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
   }
 
   const readExif = async(file: File) => {
-    const tags = await ExifReader.load(file);
-    // TIMESTAMP
-    const imageDate = tags['DateTimeOriginal']?.description;
-    if (imageDate) {
-      const formattedDate = exifTimestampAsDate(imageDate);
-      setTimestamp(formattedDate);
+    const exif = await parseExif(file);
+    if (exif.timestamp) {
+      setTimestamp(exif.timestamp);
     }
-    // CAMERA BRAND
-    const brand = tags['Make']?.description;
-    if (brand) {
-      const brandLogo = LogoOptions.find(logo => logo.name.toLowerCase() === brand.toLowerCase());
-      if (brandLogo) {
-        setCameraBrand(brandLogo.name);
-        setSelectedIcon(brandLogo.url);
-      }
+    if (exif.brandName) {
+      setCameraBrand(exif.brandName);
     }
-    // CAMERA MODEL
-    const model = tags['Model']?.description;
-    if (model) {
-      setCameraModel(model);
+    if (exif.brandLogo) {
+      setSelectedIcon(exif.brandLogo);
     }
-    // EXPOSURE (SPEED)
-    const exposure = tags['ExposureTime']?.description;
-    if (exposure) {
-      setSpeed(shortString(exposure, 6));
+    if (exif.model) {
+      setCameraModel(exif.model);
     }
-    // F NUMBER
-    const fnumber = tags['FNumber']?.description;
-    if (fnumber) {
-      setFstop(shortString(fnumber, 6));
+    if (exif.speed) {
+      setSpeed(exif.speed);
     }
-    // FOCAL LENGTH
-    const focalLength = tags['FocalLength']?.value;
-    if (focalLength) {
-      const [num, den] = focalLength.toString().split(",");
-      if (num && den) {
-        const focalLengthFixed = (parseFloat(num)/parseFloat(den)).toFixed(2);
-        setFocalLength(parseFloat(focalLengthFixed));
-      }
+    if (exif.fstop) {
+      setFstop(exif.fstop);
     }
-    // ISO
-    const iso = tags['ISOSpeedRatings']?.description;
-    if (iso) {
-      setIso(parseInt(iso));
+    if (exif.focalLength) {
+      setFocalLength(exif.focalLength);
     }
-    // LENS BRAND
-    const lensMake = tags['LensMake']?.description;
-    if(lensMake) {
-      setLensBrand(lensMake);
+    if (exif.iso) {
+      setIso(exif.iso);
     }
-    // LENS MODEL
-    const lensModel = tags['LensModel']?.description;
-    if(lensModel) {
-      setLensModel(lensModel);
+    if (exif.lensBrand) {
+      setLensBrand(exif.lensBrand);
+    }
+    if (exif.lensModel) {
+      setLensModel(exif.lensModel);
     }
   }
 
@@ -141,23 +101,6 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
       />
     </div>
   );
-}
-
-const fileTypes = [
-  "image/apng",
-  "image/bmp",
-  "image/gif",
-  "image/jpeg",
-  "image/pjpeg",
-  "image/png",
-  "image/svg+xml",
-  "image/tiff",
-  "image/webp",
-  "image/x-icon",
-];
-
-function validFileType(file: File) {
-  return fileTypes.includes(file.type);
 }
 
 export default FilePicker;
