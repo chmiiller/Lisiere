@@ -27,6 +27,7 @@ export type EXIFObject = {
   lensModel?: string;
 }
 
+// EXIF dates come as "2024:12:31 11:22:33" and we convert it to a JS Date
 export function exifTimestampAsDate(timestampString: string): Date {
   const [datePart, timePart] = timestampString.split(" ");
   const [year, month, day] = datePart.split(":").map(Number);
