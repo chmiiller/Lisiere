@@ -1,4 +1,4 @@
-import { exifTimestampAsDate, formatDateForPicker } from '../utils';
+import { exifTimestampAsDate, formatDateForPicker, getValidFileType } from '../utils';
 import { expect, test } from 'vitest';
 
 test('converting EXIF timestamp to JS Date', () => {
@@ -19,4 +19,28 @@ test('converting JS Date to a proper value for the date picker', () => {
   const expectedString = "2020-01-10";
   const formattedDate = formatDateForPicker(today); // returns on this format: yyyy-mm-dd
   expect(formattedDate).equal(expectedString);
+});
+
+test('if a JPG file is a valid image type', () => {
+  const mockFile = new File(['image'], 'image.jpg', {
+    type: "image/jpeg"
+  });
+  const isValid = getValidFileType(mockFile);
+  expect(isValid).toBeTruthy();
+});
+
+test('if a PNG file is a valid image type', () => {
+  const mockFile = new File(['image'], 'image.png', {
+    type: "image/png"
+  });
+  const isValid = getValidFileType(mockFile);
+  expect(isValid).toBeTruthy();
+});
+
+test('if a PDF file is a valid image type', () => {
+  const mockFile = new File(['document'], 'doc.pdf', {
+    type: "application/pdf"
+  });
+  const isValid = getValidFileType(mockFile);
+  expect(isValid).toBeFalsy();
 });
