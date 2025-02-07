@@ -14,6 +14,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <div
+      data-testid={`button_${title ? title : ''}`}
       className={`
         w-auto p-2 flex flex-row items-center justify-center
         ${outline ? 'border' : ''} border-violet-500 rounded-md
