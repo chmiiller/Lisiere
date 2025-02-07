@@ -2,13 +2,11 @@ import React from 'react';
 
 type ButtonProps = {
   title?: string;
-  outline?: boolean;
   onClick: () => void;
   children: React.ReactNode
 };
 const Button: React.FC<ButtonProps> = ({
   title,
-  outline,
   onClick,
   children,
 }) => {
@@ -16,8 +14,7 @@ const Button: React.FC<ButtonProps> = ({
     <div
       data-testid={`button_${title ? title : ''}`}
       className={`
-        w-auto p-2 flex flex-row items-center justify-center
-        ${outline ? 'border' : ''} border-violet-500 rounded-md
+        w-auto p-2 flex flex-row items-center justify-center border-violet-500 rounded-md
         bg-fuchsia-700 hover:bg-fuchsia-800 cursor-pointer max-w-32
       `}
       onClick={onClick}
