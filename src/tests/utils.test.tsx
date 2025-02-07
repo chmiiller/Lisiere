@@ -1,4 +1,4 @@
-import { exifTimestampAsDate, formatDateForPicker, getValidFileType } from '../utils';
+import { exifTimestampAsDate, formatDateForPicker, getValidFileType, shortString } from '../utils';
 import { expect, test } from 'vitest';
 
 test('converting EXIF timestamp to JS Date', () => {
@@ -43,4 +43,10 @@ test('if a PDF file is a valid image type', () => {
   });
   const isValid = getValidFileType(mockFile);
   expect(isValid).toBeFalsy();
+});
+
+test('if a long string is properly shortened', () => {
+  const short = shortString('f/5.22222', 6);
+  const expectedString = 'f/5.22';
+  expect(short).toEqual(expectedString);
 });
