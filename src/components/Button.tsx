@@ -1,3 +1,5 @@
+import React from 'react';
+
 type ButtonProps = {
   title?: string;
   outline?: boolean;
