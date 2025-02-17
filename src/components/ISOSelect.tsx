@@ -5,7 +5,7 @@ type ISOSelectProps = {
   value?: number;
 }
 
-const ISOOptions = [
+export const ISOOptions = [
   50,
   100,
   150,
