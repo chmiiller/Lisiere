@@ -5,5 +5,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     css: true,
+    alias: {
+      '@/': new URL('./src/', import.meta.url).pathname, 
+    }
   },
 })

@@ -20,6 +20,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 [] Docs
 [] NextJS MetaData
 [] ESLint rules
+[] Analytics
 [] General style
 [] Custom footer style
 [] Custom footer background color

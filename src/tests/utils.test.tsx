@@ -4,7 +4,7 @@ import {
   getValidFileType,
   shortString,
   parseExif,
-} from '../utils';
+} from '@/utils';
 import { expect, expectTypeOf,test } from 'vitest';
 import * as fs from 'fs/promises';
 import path from 'path';

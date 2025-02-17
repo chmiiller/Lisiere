@@ -5,7 +5,7 @@ import { test, expect, vi } from "vitest";
 import { ArrowUpFromLine } from 'lucide-react';
 import "@testing-library/jest-dom/vitest";
 
-import Button from '../components/Button';
+import Button from '@/components/Button';
 
 test("if button is displayed with the passed title", () => {
   const buttonTitle = "Button Title 123";
