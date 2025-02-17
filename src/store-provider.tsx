@@ -40,7 +40,7 @@ export const useLisiereStore = <T,>(
   const storeContext = useContext(LisiereStoreContext)
 
   if (!storeContext) {
-    throw new Error(`useCounterStore must be used within CounterStoreProvider`)
+    throw new Error(`useLisiereStore must be used within LisiereStoreProvider`)
   }
 
   return useStore(storeContext, selector)
