@@ -1,3 +1,4 @@
+import React from 'react';
 import { useLisiereStore } from '@/store-provider';
 
 export default function Footer() {
@@ -12,7 +13,7 @@ export default function Footer() {
   } = useLisiereStore((state) => state);
   const formattedTimestamp = formatDate(timestamp);
   return (
-    <div className="flex flex-row bg-slate-50 h-1/5 p-4 w-full">
+    <div className="flex flex-row bg-slate-50 h-1/5 p-4 w-full" data-testid={'footer'}>
       {/* Left side */}
       <div className='flex flex-col flex-grow'>
         <p className='text-gray-800 text-5xs sm:text-2xs font-medium text-left'>
