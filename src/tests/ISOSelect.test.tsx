@@ -14,12 +14,12 @@ test("if ISOSelect is rendered successfully", () => {
 
 test("if all ISO options should are available", () => {
   render(<ISOSelect onChange={() => {}} />);
-  ISOOptions.forEach(item => {
-    expect(screen.getByText(item.toString())).toBeTruthy();
+  ISOOptions.forEach(ISOItem => {
+    expect(screen.getByText(ISOItem.toString())).toBeTruthy();
   });
 });
 
-test("if is possible to select an ISO option", async() => {
+test("if it is possible to select an ISO option", async() => {
   const option = ISOOptions[6].toString();
   render(<ISOSelect onChange={() => {}} />);
   await userEvent.selectOptions(screen.getByRole('combobox'), option);
