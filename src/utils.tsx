@@ -41,6 +41,19 @@ export function formatDateForPicker(date: Date): string {
   return date.toISOString().split('T')[0]; 
 }
 
+// 16 Jul 1969
+export function formatDateForFooter(date: Date): string {
+  if (!(date instanceof Date)) {
+    return "Invalid Date";
+  }
+
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  }).replace(/(\d+)\s(\w+)\s(\d+)/, "$1 $2 $3");
+}
+
 // shortens a string length to limit. Ex: f/1.7799999713 becomes f/1.77
 export function shortString(original: string, limit: number): string {
   if (original.length > limit) {

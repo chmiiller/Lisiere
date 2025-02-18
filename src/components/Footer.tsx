@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLisiereStore } from '@/store-provider';
+import { formatDateForFooter } from '@/utils';
 
 export default function Footer() {
   const {
@@ -11,15 +12,15 @@ export default function Footer() {
     lensModel,
     selectedIcon,
   } = useLisiereStore((state) => state);
-  const formattedTimestamp = formatDate(timestamp);
+  const formattedTimestamp = formatDateForFooter(timestamp);
   return (
     <div className="flex flex-row bg-slate-50 h-1/5 p-4 w-full" data-testid={'footer'}>
       {/* Left side */}
       <div className='flex flex-col flex-grow'>
-        <p className='text-gray-800 text-5xs sm:text-2xs font-medium text-left'>
+        <p className='text-gray-800 text-5xs sm:text-2xs font-medium text-left' data-testid={'footer_iso'}>
           {`ISO ${exif.iso} ${exif.focalLength}mm ${exif.fstop} ${exif.speed}s`}
         </p>
-        <p className='text-gray-800 text-5xs sm:text-2xs font-extralight text-left'>{`${formattedTimestamp}`}</p>
+        <p className='text-gray-800 text-5xs sm:text-2xs font-extralight text-left' data-testid={'footer_timestamp'}>{`${formattedTimestamp}`}</p>
       </div>
       {/* Camera logo */}
       <div className='flex flex-row items-center justify-end w-16 sm:w-20 md:w-36'>
@@ -31,23 +32,11 @@ export default function Footer() {
       {/* Right side */}
       <div className='flex flex-grow flex-row '>
         <div className='flex flex-grow flex-col items-end'>
-          <p className='text-gray-800 text-5xs font-medium sm:text-2xs text-right'>{`${cameraBrand} ${cameraModel}`}</p>
-          <p className='text-gray-800 text-5xs font-extralight sm:text-2xs text-right max-w-32'>{`${lensBrand} ${lensModel}`}</p>
+          <p className='text-gray-800 text-5xs font-medium sm:text-2xs text-right' data-testid={'footer_camera'}>{`${cameraBrand} ${cameraModel}`}</p>
+          <p className='text-gray-800 text-5xs font-extralight sm:text-2xs text-right max-w-32' data-testid={'footer_lens'}>{`${lensBrand} ${lensModel}`}</p>
         </div>
       </div>
       
     </div>
   );
-}
-
-function formatDate(date: Date) {
-  if (!(date instanceof Date)) {
-      return "Invalid Date";
-  }
-
-  return date.toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric'
-}).replace(/(\d+)\s(\w+)\s(\d+)/, "$1 $2 $3");
 }

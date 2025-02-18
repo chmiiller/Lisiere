@@ -4,15 +4,16 @@ import {
   getValidFileType,
   shortString,
   parseExif,
+  formatDateForFooter,
 } from '@/utils';
 import { expect, expectTypeOf,test } from 'vitest';
 import * as fs from 'fs/promises';
 import path from 'path';
 
 test('converting EXIF timestamp to JS Date', () => {
-  const originalTimestamp = "2025:01:27 12:33:11";
+  const originalTimestamp = "1969:07:20 20:18:0";
   const timestampAsDate = exifTimestampAsDate(originalTimestamp);
-  const expectedDate = new Date(2025, 0, 27, 12, 33, 11);
+  const expectedDate = new Date(1969, 6, 20, 20, 18, 0);
   expectTypeOf(expectedDate).toEqualTypeOf<Date>()
   expect(timestampAsDate.getFullYear()).equal(expectedDate.getFullYear());
   expect(timestampAsDate.getMonth()).equal(expectedDate.getMonth());
@@ -23,10 +24,17 @@ test('converting EXIF timestamp to JS Date', () => {
 });
 
 test('converting JS Date to a proper value for the date picker', () => {
-  const today = new Date(2020, 0, 11);
-  const expectedString = "2020-01-10";
-  const formattedDate = formatDateForPicker(today); // returns on this format: yyyy-mm-dd
+  const moonLandingDate = new Date(1969, 6, 20, 20, 18, 0);
+  const expectedString = "1969-07-20";
+  const formattedDate = formatDateForPicker(moonLandingDate); // returns on this format: yyyy-mm-dd
   expect(formattedDate).equal(expectedString);
+});
+
+test('converting JS Date to a proper timestamp to be displayed on the Footer', () => {
+  const moonLandingDate = new Date(1969, 6, 20, 20, 18, 0);
+  const expectedTimestamp = '20 Jul 1969';
+  const formattedTimestamp = formatDateForFooter(moonLandingDate);
+  expect(formattedTimestamp).toStrictEqual(expectedTimestamp);
 });
 
 test('if a JPG file is a valid image type', () => {
