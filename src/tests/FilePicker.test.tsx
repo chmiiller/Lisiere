@@ -42,6 +42,8 @@ vi.mock('../store-provider', () => {
 test("if the component and children are rendered properly", () => {
   const buttonTitle = "Upload an image";
   const paragraphTitle = "Upload";
+  const inputAcceptedFormats = ".jpg, .jpeg, .png";
+
   render(
     <LisiereStoreProvider>
       <FilePicker onImageSelected={() => {}}/>
@@ -50,8 +52,11 @@ test("if the component and children are rendered properly", () => {
 
   const uploadButton = screen.getByTitle(buttonTitle);
   const uploadParagraph = screen.getByRole("paragraph");
+  const input = screen.getByTestId("image_upload");
+
   expect(uploadButton).toBeInTheDocument();
   expect((uploadParagraph as HTMLParagraphElement).textContent).toEqual(paragraphTitle);
+  expect((input as HTMLInputElement).accept).toEqual(inputAcceptedFormats);
 });
 
 test("If image upload works", async() => {
