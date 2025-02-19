@@ -40,12 +40,11 @@ This project is hosted with [Vercel](https://vercel.com) and automatically deplo
 
 ## To Do
 
-1. [ ] NextJS MetaData
-2. [ ] ESLint rules
-3. [ ] Analytics
-4. [ ] General style
-5. [ ] Option to hide camera logo
-6. [ ] More customization options
+1. [ ] ESLint rules
+2. [ ] Analytics
+3. [ ] General style
+4. [ ] Option to hide camera logo
+5. [ ] More customization options
 
 ## Tests
 Unit and Integration tests are written using [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)   
