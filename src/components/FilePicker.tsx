@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRef, useState } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
 import { useLisiereStore } from '@/store-provider';
@@ -91,11 +92,12 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
         {errorMessage && <p className='text-red-300 w-full'>{errorMessage}</p>}
       </button>
       <input
+        data-testid={"image_upload"}
+        id="image_upload"
+        name="image_upload"
         ref={imagePicker}
         style={{ display: 'none' }}
         type="file"
-        id="image_uploads"
-        name="image_uploads"
         accept=".jpg, .jpeg, .png"
         onChange={handleImagePicker}
       />
