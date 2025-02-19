@@ -27,6 +27,7 @@ export type EXIFObject = {
   lensModel?: string;
 }
 
+// EXIF dates come as "2024:12:31 11:22:33" and we convert it to a JS Date
 export function exifTimestampAsDate(timestampString: string): Date {
   const [datePart, timePart] = timestampString.split(" ");
   const [year, month, day] = datePart.split(":").map(Number);
@@ -38,6 +39,19 @@ export function exifTimestampAsDate(timestampString: string): Date {
 // yyyy-mm-dd
 export function formatDateForPicker(date: Date): string {
   return date.toISOString().split('T')[0]; 
+}
+
+// 16 Jul 1969
+export function formatDateForFooter(date: Date): string {
+  if (!(date instanceof Date)) {
+    return "Invalid Date";
+  }
+
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  }).replace(/(\d+)\s(\w+)\s(\d+)/, "$1 $2 $3");
 }
 
 // shortens a string length to limit. Ex: f/1.7799999713 becomes f/1.77
