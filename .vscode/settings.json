@@ -3,5 +3,8 @@
     "exif",
     "fstop",
     "Lisiere"
-  ]
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
 }
