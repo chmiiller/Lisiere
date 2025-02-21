@@ -1,6 +1,6 @@
-import React from 'react';
-import { useRef, useState } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+
 import { useLisiereStore } from '@/store-provider';
 import { getValidFileType, parseExif } from '@/utils';
 
@@ -13,17 +13,17 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const {
-      setIso,
-      setFocalLength,
-      setFstop,
-      setSpeed,
-      setTimestamp,
-      setSelectedIcon,
-      setCameraModel,
-      setCameraBrand,
-      setLensBrand,
-      setLensModel,
-    } = useLisiereStore((state) => state);
+    setIso,
+    setFocalLength,
+    setFstop,
+    setSpeed,
+    setTimestamp,
+    setSelectedIcon,
+    setCameraModel,
+    setCameraBrand,
+    setLensBrand,
+    setLensModel,
+  } = useLisiereStore((state) => state);
 
   const handleImagePicker = (e: React.ChangeEvent<HTMLInputElement>) => {
     const curFiles = e.target.files;
@@ -41,9 +41,9 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
         }
       }
     }
-  }
+  };
 
-  const readExif = async(file: File) => {
+  const readExif = async (file: File) => {
     const exif = await parseExif(file);
     if (exif.timestamp) {
       setTimestamp(exif.timestamp);
@@ -75,24 +75,24 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
     if (exif.lensModel) {
       setLensModel(exif.lensModel);
     }
-  }
+  };
 
   return (
-    <div className='flex flex-col items-center justify-center w-full p-1 h-64 sm:h-80 md:h-96 max-w-4xl rounded-md bg-slate-700'>
+    <div className="flex h-64 w-full max-w-4xl flex-col items-center justify-center rounded-md bg-slate-700 p-1 sm:h-80 md:h-96">
       <button
         title={'Upload an image'}
-        className='cursor-pointer flex flex-col items-center justify-center w-full'
+        className="flex w-full cursor-pointer flex-col items-center justify-center"
         onClick={(event) => {
           event.preventDefault();
           imagePicker?.current?.click();
         }}
       >
-        <ImageIcon size={60}/>
+        <ImageIcon size={60} />
         {!errorMessage && <p>Upload</p>}
-        {errorMessage && <p className='text-red-300 w-full'>{errorMessage}</p>}
+        {errorMessage && <p className="w-full text-red-300">{errorMessage}</p>}
       </button>
       <input
-        data-testid={"image_upload"}
+        data-testid={'image_upload'}
         id="image_upload"
         name="image_upload"
         ref={imagePicker}
@@ -103,6 +103,6 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
       />
     </div>
   );
-}
+};
 
 export default FilePicker;

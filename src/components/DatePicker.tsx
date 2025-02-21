@@ -1,17 +1,18 @@
-import { formatDateForPicker } from '@/utils';
 import React, { useEffect, useState } from 'react';
+
+import { formatDateForPicker } from '@/utils';
 
 type DatePickerProps = {
   onDateChange: (selectedDate: string) => void;
   value?: Date;
 };
 
-function DatePicker({ onDateChange, value } :DatePickerProps) {
+function DatePicker({ onDateChange, value }: DatePickerProps) {
   const today = formatDateForPicker(new Date());
   const initDate = value ? formatDateForPicker(value) : today;
   const [selectedDate, setSelectedDate] = useState<string>(initDate);
   useEffect(() => {
-    if(value) {
+    if (value) {
       setSelectedDate(formatDateForPicker(value));
     }
   }, [value]);
@@ -19,24 +20,25 @@ function DatePicker({ onDateChange, value } :DatePickerProps) {
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const dateValue = e.target.value;
     setSelectedDate(dateValue);
-  
+
     if (onDateChange) {
       onDateChange(dateValue);
     }
   };
 
   return (
-    <div className='flex flex-col max-w-48'>
+    <div className="flex max-w-48 flex-col">
       <label
-          className='text-slate-200 ml-1 mt-2 mb-1 text-base font-bold'
-          htmlFor={"timestamp"} >
-            Date
-        </label>
+        className="mb-1 ml-1 mt-2 text-base font-bold text-slate-200"
+        htmlFor={'timestamp'}
+      >
+        Date
+      </label>
       <input
-        id='timestamp'
-        name='timestamp'
+        id="timestamp"
+        name="timestamp"
         type="date"
-        className='bg-slate-700 text-lg p-1 m-1 rounded-md leading-relaxed'
+        className="m-1 rounded-md bg-slate-700 p-1 text-lg leading-relaxed"
         value={selectedDate}
         onChange={handleDateChange}
       />

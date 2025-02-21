@@ -3,19 +3,19 @@ import React, { useEffect, useState } from 'react';
 type LogoSelectProps = {
   onChange: (item: LogoOption) => void;
   value?: string;
-}
+};
 
 export type LogoOption = {
-  name: 
-  'Sony'
-  | 'Nikon'
-  | 'Canon'
-  | 'Leica'
-  | 'Go Pro'
-  | 'Olympus'
-  | 'Apple'
-  | 'Samsung'
-  | 'Google',
+  name:
+    | 'Sony'
+    | 'Nikon'
+    | 'Canon'
+    | 'Leica'
+    | 'Go Pro'
+    | 'Olympus'
+    | 'Apple'
+    | 'Samsung'
+    | 'Google';
   url: string;
 };
 
@@ -32,10 +32,12 @@ export const LogoOptions: LogoOption[] = [
 ];
 
 export default function LogoSelect({ onChange, value }: LogoSelectProps) {
-  const [selectedValue, setSelectedValue] = useState<string>(value || "");
+  const [selectedValue, setSelectedValue] = useState<string>(value || '');
   useEffect(() => {
-    if(value) {
-      const brandLogo = LogoOptions.find(logo => logo.name.toLowerCase() === value.toLowerCase());
+    if (value) {
+      const brandLogo = LogoOptions.find(
+        (logo) => logo.name.toLowerCase() === value.toLowerCase(),
+      );
       if (brandLogo) {
         setSelectedValue(brandLogo.url);
       }
@@ -43,37 +45,33 @@ export default function LogoSelect({ onChange, value }: LogoSelectProps) {
   }, [value]);
 
   return (
-    <div className='flex flex-col'>
+    <div className="flex flex-col">
       <label
-        className='text-slate-200 ml-1 mt-2 mb-1 text-base font-bold'
-        htmlFor="camera logo">
-          Camera logo
-        </label>
+        className="mb-1 ml-1 mt-2 text-base font-bold text-slate-200"
+        htmlFor="camera logo"
+      >
+        Camera logo
+      </label>
       <select
-        id='camera logo'
-        name='camera logo'
+        id="camera logo"
+        name="camera logo"
         value={selectedValue}
-        className='bg-slate-700 p-1 m-1 text-lg max-w-28 rounded-md leading-relaxed'
+        className="m-1 max-w-28 rounded-md bg-slate-700 p-1 text-lg leading-relaxed"
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
           const selectedValue = e.currentTarget.value;
           setSelectedValue(selectedValue);
-          const item = LogoOptions.find(item => item.url === selectedValue);
+          const item = LogoOptions.find((item) => item.url === selectedValue);
           if (item && onChange) {
             onChange(item);
           }
         }}
       >
         {LogoOptions.map((option) => (
-            <option
-              key={option.name}
-              value={option.url}
-              title={option.name}
-            >
-                {option.name}
-            </option>
-          )
-        )}
+          <option key={option.name} value={option.url} title={option.name}>
+            {option.name}
+          </option>
+        ))}
       </select>
     </div>
-  );  
-};
+  );
+}

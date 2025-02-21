@@ -1,25 +1,23 @@
-import React from 'react';
-import { test, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 
+import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { expect, test, vi } from 'vitest';
+
 import Footer from '@/components/Footer';
-import { LisiereStoreProvider, useLisiereStore } from '../store-provider';
-import { LogoOptions } from '@/components/LogoSelect';
 import { ISOOptions } from '@/components/ISOSelect';
+import { LogoOptions } from '@/components/LogoSelect';
 import { LisiereState } from '@/store';
 import { formatDateForFooter } from '@/utils';
 
-vi.mock('../store-provider', () => {
-  return {
-    useLisiereStore: vi.fn(),
-    LisiereStoreProvider: ({ children }: { children: React.ReactNode }) => (
-      <div>
-        {children}
-      </div>
-    ),
-  };
-});
+import { LisiereStoreProvider, useLisiereStore } from '../store-provider';
+
+vi.mock('../store-provider', () => ({
+  useLisiereStore: vi.fn(),
+  LisiereStoreProvider: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
+}));
 
 const initialState: LisiereState = {
   exif: {
@@ -37,31 +35,37 @@ const initialState: LisiereState = {
   lensModel: '',
 };
 
-(useLisiereStore as ReturnType<typeof vi.fn>).mockImplementation(() => initialState);
+(useLisiereStore as ReturnType<typeof vi.fn>).mockImplementation(
+  () => initialState,
+);
 
-test("if the default Footer is rendered", () => {
+test('if the default Footer is rendered', () => {
   render(
     <LisiereStoreProvider>
       <Footer />
-    </LisiereStoreProvider>
+    </LisiereStoreProvider>,
   );
   expect(screen.getByTestId('footer')).toBeInTheDocument();
-  expect((screen.getByRole('img') as HTMLImageElement).alt).toEqual("camera logo");
+  expect((screen.getByRole('img') as HTMLImageElement).alt).toEqual(
+    'camera logo',
+  );
 });
 
-test("if the initial logo is pointing to the Sony logo", () => {
+test('if the initial logo is pointing to the Sony logo', () => {
   const domain = 'http://localhost:3000';
   const sonyLogoPath = LogoOptions[0].url;
   render(
     <LisiereStoreProvider>
       <Footer />
-    </LisiereStoreProvider>
+    </LisiereStoreProvider>,
   );
-  expect((screen.getByRole('img') as HTMLImageElement).src).toEqual(domain + sonyLogoPath);
+  expect((screen.getByRole('img') as HTMLImageElement).src).toEqual(
+    domain + sonyLogoPath,
+  );
 });
 
-test("if expected mocked values are displayed on the left side of the Footer", () => {
-  const isoOption = ISOOptions[6]
+test('if expected mocked values are displayed on the left side of the Footer', () => {
+  const isoOption = ISOOptions[6];
   const mockState: LisiereState = {
     ...initialState,
     exif: {
@@ -71,49 +75,64 @@ test("if expected mocked values are displayed on the left side of the Footer", (
       speed: '1/200',
     },
   };
-  (useLisiereStore as ReturnType<typeof vi.fn>).mockImplementation(() => mockState);
+  (useLisiereStore as ReturnType<typeof vi.fn>).mockImplementation(
+    () => mockState,
+  );
   render(
     <LisiereStoreProvider>
       <Footer />
-    </LisiereStoreProvider>
+    </LisiereStoreProvider>,
   );
   const exif = mockState.exif;
   const formattedString = `ISO ${exif.iso} ${exif.focalLength}mm ${exif.fstop} ${exif.speed}s`; // ISO 1600 200mm f/3.4 1/200s
-  expect((screen.getByTestId('footer_iso') as HTMLParagraphElement).textContent).toEqual(formattedString);
+  expect(
+    (screen.getByTestId('footer_iso') as HTMLParagraphElement).textContent,
+  ).toEqual(formattedString);
 });
 
-test("if expected mocked timestamp is displayed inside the Footer", () => {
+test('if expected mocked timestamp is displayed inside the Footer', () => {
   const moonLandingDate = new Date(1969, 6, 20);
   const mockState: LisiereState = {
     ...initialState,
     timestamp: moonLandingDate,
   };
-  (useLisiereStore as ReturnType<typeof vi.fn>).mockImplementation(() => mockState);
+  (useLisiereStore as ReturnType<typeof vi.fn>).mockImplementation(
+    () => mockState,
+  );
   render(
     <LisiereStoreProvider>
       <Footer />
-    </LisiereStoreProvider>
+    </LisiereStoreProvider>,
   );
-  const formattedTimestamp = formatDateForFooter(moonLandingDate)
-  expect((screen.getByTestId('footer_timestamp') as HTMLParagraphElement).textContent).toEqual(formattedTimestamp);
+  const formattedTimestamp = formatDateForFooter(moonLandingDate);
+  expect(
+    (screen.getByTestId('footer_timestamp') as HTMLParagraphElement)
+      .textContent,
+  ).toEqual(formattedTimestamp);
 });
 
-test("if expected mocked values are displayed on the right side of the Footer", () => {
+test('if expected mocked values are displayed on the right side of the Footer', () => {
   const mockState: LisiereState = {
     ...initialState,
     cameraBrand: 'Leica',
     cameraModel: 'M11 Monochrom',
     lensBrand: 'Leica',
-    lensModel: 'Vario-Elmarit-SL 24-70'
+    lensModel: 'Vario-Elmarit-SL 24-70',
   };
-  (useLisiereStore as ReturnType<typeof vi.fn>).mockImplementation(() => mockState);
+  (useLisiereStore as ReturnType<typeof vi.fn>).mockImplementation(
+    () => mockState,
+  );
   render(
     <LisiereStoreProvider>
       <Footer />
-    </LisiereStoreProvider>
+    </LisiereStoreProvider>,
   );
   const formattedStringCamera = `${mockState.cameraBrand} ${mockState.cameraModel}`; // Leica M11 Monochrom
   const formattedStringLens = `${mockState.lensBrand} ${mockState.lensModel}`; // Leica Vario-Elmarit-SL 24-70
-  expect((screen.getByTestId('footer_camera') as HTMLParagraphElement).textContent).toEqual(formattedStringCamera);
-  expect((screen.getByTestId('footer_lens') as HTMLParagraphElement).textContent).toEqual(formattedStringLens);
+  expect(
+    (screen.getByTestId('footer_camera') as HTMLParagraphElement).textContent,
+  ).toEqual(formattedStringCamera);
+  expect(
+    (screen.getByTestId('footer_lens') as HTMLParagraphElement).textContent,
+  ).toEqual(formattedStringLens);
 });

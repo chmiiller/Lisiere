@@ -159,27 +159,23 @@ export default function Home() {
   );
 }
 
-const DownloadButton = ({ onClick }: { onClick: () => void }) => {
-  return (
-    <div className="mt-3 flex w-full justify-center">
-      <Button title={'Download'} onClick={onClick}>
-        <Download size={18} />
-      </Button>
-    </div>
-  );
-};
+const DownloadButton = ({ onClick }: { onClick: () => void }) => (
+  <div className="mt-3 flex w-full justify-center">
+    <Button title={'Download'} onClick={onClick}>
+      <Download size={18} />
+    </Button>
+  </div>
+);
 
-const UpButton = () => {
-  return (
-    <div className="mt-4 flex w-full justify-start">
-      <Button
-        title={'Done'}
-        onClick={() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-      >
-        <ArrowUpFromLine size={18} />
-      </Button>
-    </div>
-  );
-};
+const UpButton = () => (
+  <div className="mt-4 flex w-full justify-start">
+    <Button
+      title={'Done'}
+      onClick={() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }}
+    >
+      <ArrowUpFromLine size={18} />
+    </Button>
+  </div>
+);
