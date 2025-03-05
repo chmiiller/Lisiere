@@ -6,6 +6,7 @@ import {
   exifTimestampAsDate,
   formatDateForFooter,
   formatDateForPicker,
+  formatFileSize,
   getValidFileType,
   parseExif,
   shortString,
@@ -66,6 +67,38 @@ test('if a long string is properly shortened', () => {
   const short = shortString('f/5.22222', 6);
   const expectedString = 'f/5.22';
   expect(short).toEqual(expectedString);
+});
+
+test('if file size is formatted correctly', () => {
+  const formattedFileSize = formatFileSize(500);
+  const expectedString = '500.00 B';
+  expect(formattedFileSize).toEqual(expectedString);
+
+  const formattedFileSizeBig = formatFileSize(500000);
+  const expectedStringBig = '488.28 kB';
+  expect(formattedFileSizeBig).toEqual(expectedStringBig);
+
+  const formattedFileSizeLarge = formatFileSize(500000000);
+  const expectedStringLarge = '476.84 MB';
+  expect(formattedFileSizeLarge).toEqual(expectedStringLarge);
+
+  const formattedFileSizeHuge = formatFileSize(50000000000);
+  const expectedStringHuge = '46.57 GB';
+  expect(formattedFileSizeHuge).toEqual(expectedStringHuge);
+});
+
+test('if file size is formatted correctly from an actual file', async () => {
+  const imagePath = path.resolve(__dirname, '../../public/sample.jpg');
+  const imageBuffer = (await fs
+    .readFile(imagePath)
+    .then((buffer) => buffer.buffer)) as ArrayBuffer;
+  const mockFile = new File([imageBuffer], 'image_with_exif.jpg', {
+    type: 'image/jpeg',
+  });
+
+  const formattedFileSize = formatFileSize(mockFile.size);
+  const expectedString = '304.93 kB';
+  expect(formattedFileSize).toEqual(expectedString);
 });
 
 test('if parseExif returns the correct object when an image is passed', async () => {

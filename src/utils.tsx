@@ -152,7 +152,7 @@ export async function parseExif(file: File): Promise<EXIFObject> {
 }
 
 export const formatFileSize = (bytes: number): string => {
-  // Const suffixes = ['B', 'kB', 'MB', 'GB', 'TB']; // use as suffixes[multiplier]
+  const suffixes = ['B', 'kB', 'MB', 'GB', 'TB'];
   const multiplier = Math.floor(Math.log(bytes) / Math.log(1024));
-  return `${(bytes / Math.pow(1024, multiplier)).toFixed(2)}`;
+  return `${(bytes / Math.pow(1024, multiplier)).toFixed(2)} ${suffixes[multiplier]}`;
 };
