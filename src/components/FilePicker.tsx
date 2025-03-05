@@ -1,8 +1,10 @@
 import { Image as ImageIcon } from 'lucide-react';
+import mixpanel from 'mixpanel-browser';
 import React, { useRef, useState } from 'react';
 
+import { MixpanelConstants } from '@/lib/mixpanelClient';
 import { useLisiereStore } from '@/store-provider';
-import { getValidFileType, parseExif } from '@/utils';
+import { formatFileSize, getValidFileType, parseExif } from '@/utils';
 
 type FilePickerProps = {
   onImageSelected: (fileUrl: string) => void;
@@ -30,14 +32,21 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
     if (curFiles) {
       if (curFiles.length === 0) {
         setErrorMessage('no image selected');
+        mixpanel.track(MixpanelConstants.NoImageSelected);
       } else {
         const file = curFiles[0];
+        const fileSize = formatFileSize(file.size);
+        mixpanel.track(MixpanelConstants.SelectedImage, { size: fileSize });
         if (getValidFileType(file)) {
           readExif(file);
           const imageSrc = URL.createObjectURL(file);
           onImageSelected(imageSrc);
+          mixpanel.track(MixpanelConstants.ReadImageSuccess);
         } else {
           setErrorMessage('invalid file');
+          mixpanel.track(MixpanelConstants.InvalidFileType, {
+            fileType: file.type,
+          });
         }
       }
     }
@@ -50,30 +59,48 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
     }
     if (exif.brandName) {
       setCameraBrand(exif.brandName);
+      mixpanel.track(MixpanelConstants.ReadCameraBrand, {
+        readValue: exif.brandName,
+      });
     }
     if (exif.brandLogo) {
       setSelectedIcon(exif.brandLogo);
     }
     if (exif.model) {
       setCameraModel(exif.model);
+      mixpanel.track(MixpanelConstants.ReadCameraModel, {
+        readValue: exif.model,
+      });
     }
     if (exif.speed) {
       setSpeed(exif.speed);
+      mixpanel.track(MixpanelConstants.ReadSpeed, { readValue: exif.speed });
     }
     if (exif.fstop) {
       setFstop(exif.fstop);
+      mixpanel.track(MixpanelConstants.ReadFstop, { readValue: exif.fstop });
     }
     if (exif.focalLength) {
       setFocalLength(exif.focalLength);
+      mixpanel.track(MixpanelConstants.ReadFocalLength, {
+        readValue: exif.focalLength,
+      });
     }
     if (exif.iso) {
       setIso(exif.iso);
+      mixpanel.track(MixpanelConstants.ReadIso, { readValue: exif.iso });
     }
     if (exif.lensBrand) {
       setLensBrand(exif.lensBrand);
+      mixpanel.track(MixpanelConstants.ReadLensBrand, {
+        readValue: exif.lensBrand,
+      });
     }
     if (exif.lensModel) {
       setLensModel(exif.lensModel);
+      mixpanel.track(MixpanelConstants.ReadLensModel, {
+        readValue: exif.lensModel,
+      });
     }
   };
 
@@ -84,6 +111,7 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
         className="flex w-full cursor-pointer flex-col items-center justify-center"
         onClick={(event) => {
           event.preventDefault();
+          mixpanel.track(MixpanelConstants.OpenedPicker);
           imagePicker?.current?.click();
         }}
       >

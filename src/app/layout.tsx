@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
+import MixpanelComponent from '@/lib/MixpanelComponent';
 import { LisiereStoreProvider } from '@/store-provider';
 
 const geistSans = Geist({
@@ -41,6 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <MixpanelComponent />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

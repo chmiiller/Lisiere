@@ -2,6 +2,7 @@
 
 import html2canvas from 'html2canvas';
 import { ArrowUpFromLine, Download } from 'lucide-react';
+import mixpanel from 'mixpanel-browser';
 import React, { useRef, useState } from 'react';
 
 import Button from '@/components/Button';
@@ -11,6 +12,7 @@ import Footer from '@/components/Footer';
 import InputText from '@/components/InputText';
 import ISOSelect from '@/components/ISOSelect';
 import LogoSelect, { LogoOption } from '@/components/LogoSelect';
+import { MixpanelConstants } from '@/lib/mixpanelClient';
 import { useLisiereStore } from '@/store-provider';
 
 export default function Home() {
@@ -37,6 +39,7 @@ export default function Home() {
   const [imagePath, setImagePath] = useState<string>('');
 
   const createImage = () => {
+    mixpanel.track(MixpanelConstants.DownloadImageAttempt);
     if (containerRef.current) {
       const container = containerRef.current;
       html2canvas(container).then((canvas) => {
@@ -48,6 +51,7 @@ export default function Home() {
         link.href = image;
         link.download = 'lisiere-image.jpg';
         link.click();
+        mixpanel.track(MixpanelConstants.DownloadImageSuccess);
       });
     }
   };
@@ -122,6 +126,10 @@ export default function Home() {
         <LogoSelect
           value={cameraBrand}
           onChange={(item: LogoOption) => {
+            mixpanel.track(MixpanelConstants.ChangedCameraLogo, {
+              from: cameraBrand,
+              to: item.name,
+            });
             setCameraBrand(item.name);
             setSelectedIcon(item.url);
           }}
