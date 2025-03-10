@@ -15,7 +15,8 @@ export type LogoOption = {
     | 'Olympus'
     | 'Apple'
     | 'Samsung'
-    | 'Google';
+    | 'Google'
+    | 'Fujifilm';
   url: string;
 };
 
@@ -29,6 +30,7 @@ export const LogoOptions: LogoOption[] = [
   { name: 'Apple', url: '/logos/apple.png' },
   { name: 'Samsung', url: '/logos/samsung.png' },
   { name: 'Google', url: '/logos/google.png' },
+  { name: 'Fujifilm', url: '/logos/fujifilm.png' },
 ];
 
 export default function LogoSelect({ onChange, value }: LogoSelectProps) {
@@ -47,7 +49,7 @@ export default function LogoSelect({ onChange, value }: LogoSelectProps) {
   return (
     <div className="flex flex-col">
       <label
-        className="mb-1 ml-1 mt-2 text-base font-bold text-slate-200"
+        className="mt-2 mb-1 ml-1 text-base font-bold text-slate-200"
         htmlFor="camera logo"
       >
         Camera logo

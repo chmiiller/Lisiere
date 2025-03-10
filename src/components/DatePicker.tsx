@@ -29,7 +29,7 @@ function DatePicker({ onDateChange, value }: DatePickerProps) {
   return (
     <div className="flex max-w-48 flex-col">
       <label
-        className="mb-1 ml-1 mt-2 text-base font-bold text-slate-200"
+        className="mt-2 mb-1 ml-1 text-base font-bold text-slate-200"
         htmlFor={'timestamp'}
       >
         Date

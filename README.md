@@ -46,7 +46,7 @@ This project is hosted with [Vercel](https://vercel.com) and automatically deplo
 2. [ ] Option to hide camera logo
 3. [ ] More customization options
 4. [ ] E2E testing with Playwright
-5. [ ] Update to Tailwind 4.0
+5. [ ] Fix light mode
 
 ## Tests
 

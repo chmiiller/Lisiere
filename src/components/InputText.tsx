@@ -29,13 +29,13 @@ export default function InputText({
       {label && (
         <label
           htmlFor={id}
-          className="mb-1 ml-1 mt-2 text-base font-bold text-slate-200"
+          className="mt-2 mb-1 ml-1 text-base font-bold text-slate-200"
         >
           {label}
         </label>
       )}
       <input
-        className="m-1 min-w-1 max-w-60 rounded-md bg-slate-700 p-1 text-base leading-relaxed"
+        className="m-1 max-w-60 min-w-1 rounded-md bg-slate-700 p-1 text-base leading-relaxed"
         inputMode={numeric ? 'decimal' : 'text'}
         id={id}
         name={id}

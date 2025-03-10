@@ -22,13 +22,13 @@ export default function Footer() {
       {/* Left side */}
       <div className="flex grow flex-col">
         <p
-          className="text-left text-5xs font-medium text-gray-800 sm:text-2xs"
+          className="text-5xs sm:text-2xs text-left font-medium text-gray-800"
           data-testid={'footer_iso'}
         >
           {`ISO ${exif.iso} ${exif.focalLength}mm ${exif.fstop} ${exif.speed}s`}
         </p>
         <p
-          className="text-left text-5xs font-extralight text-gray-800 sm:text-2xs"
+          className="text-5xs sm:text-2xs text-left font-extralight text-gray-800"
           data-testid={'footer_timestamp'}
         >{`${formattedTimestamp}`}</p>
       </div>
@@ -47,11 +47,11 @@ export default function Footer() {
       <div className="flex grow flex-row">
         <div className="flex grow flex-col items-end">
           <p
-            className="text-right text-5xs font-medium text-gray-800 sm:text-2xs"
+            className="text-5xs sm:text-2xs text-right font-medium text-gray-800"
             data-testid={'footer_camera'}
           >{`${cameraBrand} ${cameraModel}`}</p>
           <p
-            className="max-w-32 text-right text-5xs font-extralight text-gray-800 sm:text-2xs"
+            className="text-5xs sm:text-2xs max-w-32 text-right font-extralight text-gray-800"
             data-testid={'footer_lens'}
           >{`${lensBrand} ${lensModel}`}</p>
         </div>
