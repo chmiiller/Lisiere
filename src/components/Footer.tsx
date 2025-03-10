@@ -20,7 +20,7 @@ export default function Footer() {
       data-testid={'footer'}
     >
       {/* Left side */}
-      <div className="flex flex-grow flex-col">
+      <div className="flex grow flex-col">
         <p
           className="text-left text-5xs font-medium text-gray-800 sm:text-2xs"
           data-testid={'footer_iso'}
@@ -41,11 +41,11 @@ export default function Footer() {
           alt="camera logo"
         />
         {/* Vertical Separator */}
-        <div className="ml-1 h-full w-px rounded bg-gray-300" />
+        <div className="ml-1 h-full w-px rounded-sm bg-gray-300" />
       </div>
       {/* Right side */}
-      <div className="flex flex-grow flex-row">
-        <div className="flex flex-grow flex-col items-end">
+      <div className="flex grow flex-row">
+        <div className="flex grow flex-col items-end">
           <p
             className="text-right text-5xs font-medium text-gray-800 sm:text-2xs"
             data-testid={'footer_camera'}

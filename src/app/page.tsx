@@ -1,6 +1,6 @@
 'use client';
 
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 import { ArrowUpFromLine, Download } from 'lucide-react';
 import mixpanel from 'mixpanel-browser';
 import React, { useRef, useState } from 'react';
