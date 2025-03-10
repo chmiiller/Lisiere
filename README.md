@@ -42,12 +42,11 @@ This project is hosted with [Vercel](https://vercel.com) and automatically deplo
 
 ## To Do
 
-1. [ ] Analytics
-2. [ ] General style
-3. [ ] Option to hide camera logo
-4. [ ] More customization options
-5. [ ] E2E testing with Playwright
-6. [ ] Update to Tailwind 4.0
+1. [ ] General style
+2. [ ] Option to hide camera logo
+3. [ ] More customization options
+4. [ ] E2E testing with Playwright
+5. [ ] Update to Tailwind 4.0
 
 ## Tests
 
