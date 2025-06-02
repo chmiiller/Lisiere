@@ -37,6 +37,7 @@ export default function Home() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [imagePath, setImagePath] = useState<string>('');
+  const [debugMessage, setDebugMessage] = useState<string>('');
 
   const createImage = () => {
     mixpanel.track(MixpanelConstants.DownloadImageAttempt);
@@ -67,14 +68,18 @@ export default function Home() {
             const imageFile = new File([imageBlob], 'yourImageFileName.jpg', {
               type: imageBlob.type,
             });
-            if (navigator.share) {
-              await navigator.share({
-                files: [imageFile],
-                title: 'Download Image',
-                text: 'Here is the image you wanted to download.',
-              });
+            const files = [imageFile];
+            const title = 'Lisiere is sharing...';
+            const text = 'carlos 123';
+            const url = 'https://lisiere.vercel.app/';
+            if (navigator.canShare({ files: [imageFile] })) {
+              try {
+                await navigator.share({ files, title, text, url });
+              } catch (error) {
+                setDebugMessage(error + '');
+              }
             } else {
-              alert('error trying to share');
+              setDebugMessage('navigator.canShare is false');
             }
           }
         });
@@ -86,6 +91,7 @@ export default function Home() {
     <div
       className={`flex min-h-screen w-full flex-col items-center justify-center p-3 pb-20 font-[family-name:var(--font-geist-sans)]`}
     >
+      <p>{debugMessage}</p>
       <div className="flex w-full max-w-sm flex-col p-1 sm:max-w-sm md:max-w-md lg:max-w-lg">
         {imagePath && (
           // Image and Footer to be rendered in the end
