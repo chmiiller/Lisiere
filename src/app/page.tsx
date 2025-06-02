@@ -73,9 +73,8 @@ export default function Home() {
                 title: 'Download Image',
                 text: 'Here is the image you wanted to download.',
               });
-              console.log('Image shared successfully');
             } else {
-              alert('nao rolou2');
+              alert('error trying to share');
             }
           }
         });
