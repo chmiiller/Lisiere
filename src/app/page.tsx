@@ -56,6 +56,33 @@ export default function Home() {
     }
   };
 
+  const shareImage = () => {
+    if (containerRef.current) {
+      const container = containerRef.current;
+      html2canvas(container).then((canvas) => {
+        // Convert the canvas to a JPG image
+        // Const image = canvas.toDataURL('image/jpeg', 1.0);
+        canvas.toBlob(async (imageBlob) => {
+          if (imageBlob) {
+            const imageFile = new File([imageBlob], 'yourImageFileName.jpg', {
+              type: imageBlob.type,
+            });
+            if (navigator.share) {
+              await navigator.share({
+                files: [imageFile],
+                title: 'Download Image',
+                text: 'Here is the image you wanted to download.',
+              });
+              console.log('Image shared successfully');
+            } else {
+              alert('nao rolou2');
+            }
+          }
+        });
+      });
+    }
+  };
+
   return (
     <div
       className={`flex min-h-screen w-full flex-col items-center justify-center p-3 pb-20 font-[family-name:var(--font-geist-sans)]`}
@@ -80,6 +107,7 @@ export default function Home() {
       {/* Form container */}
       <div className="mt-1 flex w-full max-w-4xl flex-col p-1">
         <DownloadButton onClick={createImage} />
+        <ShareButton onClick={shareImage} />
         {/* ISO Select */}
         <ISOSelect value={exif.iso} onChange={(value) => setIso(value)} />
         {/* Focal Length */}
@@ -170,6 +198,14 @@ export default function Home() {
 const DownloadButton = ({ onClick }: { onClick: () => void }) => (
   <div className="mt-3 flex w-full justify-center">
     <Button title={'Download'} onClick={onClick}>
+      <Download size={18} />
+    </Button>
+  </div>
+);
+
+const ShareButton = ({ onClick }: { onClick: () => void }) => (
+  <div className="mt-3 flex w-full justify-center">
+    <Button title={'Share'} onClick={onClick}>
       <Download size={18} />
     </Button>
   </div>
