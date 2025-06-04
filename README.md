@@ -47,6 +47,7 @@ This project is hosted with [Vercel](https://vercel.com) and automatically deplo
 3. [ ] More customization options
 4. [ ] E2E testing with Playwright
 5. [ ] Fix light mode
+6. [ ] Add share like capability so users can save the images to their photo gallery. Use https://github.com/w3c/web-share/blob/main/demos/share-files.html#L145 as inspiration
 
 ## Tests
 
