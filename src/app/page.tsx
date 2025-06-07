@@ -61,7 +61,8 @@ export default function Home() {
     }
   };
 
-  function checkBasicFileShare() {
+  /*
+  Function checkBasicFileShare() {
     const txt = new Blob(['Hello, world!'], { type: 'text/plain' });
     const file = new File([txt], 'test.txt');
     return navigator.canShare({ files: [file] });
@@ -71,39 +72,12 @@ export default function Home() {
     if (containerRef.current) {
       const container = containerRef.current;
       html2canvas(container).then((canvas) => {
-        // Convert the canvas to a JPG image
-        // Const image = canvas.toDataURL('image/jpeg', 1.0);
         canvas.toBlob(async (imageBlob) => {
           if (imageBlob) {
             const imageFile = new File([imageBlob], 'yourImageFileName.jpg', {
               type: imageBlob.type,
             });
             const selectedFiles = [imageFile];
-
-            // New test
-            if (selectedFiles && selectedFiles.length > 0) {
-              if (!navigator.canShare) {
-                updateDebugMessage(
-                  'Warning: canShare is not supported. File sharing may not be supported at all.',
-                );
-              } else if (!checkBasicFileShare()) {
-                updateDebugMessage(
-                  'Error: File sharing is not supported in this browser.',
-                );
-                return;
-              } else if (!navigator.canShare({ files: selectedFiles })) {
-                updateDebugMessage(
-                  'Error: share() does not support the given files',
-                );
-                for (const file of selectedFiles) {
-                  updateDebugMessage(
-                    `File info: name - ${file.name}, size ${file.size}, type ${file.type}`,
-                  );
-                }
-                return;
-              }
-            }
-
             try {
               await navigator.share({
                 files: selectedFiles,
@@ -117,6 +91,21 @@ export default function Home() {
       });
     }
   };
+*/
+  async function generateCanvasFromHTML(): Promise<HTMLCanvasElement | null> {
+    return new Promise<HTMLCanvasElement | null>((resolve) => {
+      if (containerRef.current) {
+        const container = containerRef.current;
+        html2canvas(container)
+          .then((canvas) => {
+            resolve(canvas);
+          })
+          .catch(() => {
+            resolve(null);
+          });
+      }
+    });
+  }
 
   return (
     <div
@@ -145,7 +134,30 @@ export default function Home() {
         <DownloadButton onClick={createImage} />
         <ShareButton
           onClick={async () => {
-            await shareImage();
+            const canvas = await generateCanvasFromHTML();
+            if (canvas) {
+              canvas.toBlob(async (imageBlob: Blob | null) => {
+                if (imageBlob) {
+                  const imageFile = new File(
+                    [imageBlob],
+                    'yourImageFileName.jpg',
+                    {
+                      type: imageBlob.type,
+                    },
+                  );
+                  const selectedFiles = [imageFile];
+
+                  try {
+                    await navigator.share({
+                      files: selectedFiles,
+                    });
+                    updateDebugMessage('Successfully sent share');
+                  } catch (error) {
+                    updateDebugMessage('Error sharing: ' + error);
+                  }
+                }
+              });
+            }
           }}
         />
         {/* ISO Select */}
@@ -245,7 +257,7 @@ const DownloadButton = ({ onClick }: { onClick: () => void }) => (
 
 const ShareButton = ({ onClick }: { onClick: () => void }) => (
   <div className="mt-3 flex w-full justify-center">
-    <Button title={'Share'} onClick={onClick}>
+    <Button title={'Share 14:56'} onClick={onClick}>
       <Download size={18} />
     </Button>
   </div>
