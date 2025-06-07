@@ -38,6 +38,7 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [imagePath, setImagePath] = useState<string>('');
   const [debugMessage, setDebugMessage] = useState<string>('');
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const updateDebugMessage = (message: string) => {
     setDebugMessage((old) => old + ` ${message}`);
@@ -152,14 +153,22 @@ export default function Home() {
       <div className="mt-1 flex w-full max-w-4xl flex-col p-1">
         <DownloadButton onClick={createImage} />
         <ShareButton
+          title={selectedFiles.length === 0 ? 'Generate' : 'Share'}
           onClick={async () => {
-            const canvas = await generateCanvasFromHTML();
-            if (canvas) {
-              const file = await generateFileFromCanvas(canvas);
-              if (file) {
+            if (selectedFiles.length === 0) {
+              const canvas = await generateCanvasFromHTML();
+              if (canvas) {
+                const file = await generateFileFromCanvas(canvas);
+                if (file) {
+                  const fileArray: File[] = [file];
+                  setSelectedFiles(fileArray);
+                }
+              }
+            } else {
+              if (selectedFiles) {
                 try {
                   await navigator.share({
-                    files: [file],
+                    files: selectedFiles,
                   });
                   updateDebugMessage('Successfully sent share');
                 } catch (error) {
@@ -264,9 +273,15 @@ const DownloadButton = ({ onClick }: { onClick: () => void }) => (
   </div>
 );
 
-const ShareButton = ({ onClick }: { onClick: () => void }) => (
+const ShareButton = ({
+  onClick,
+  title,
+}: {
+  onClick: () => void;
+  title: string;
+}) => (
   <div className="mt-3 flex w-full justify-center">
-    <Button title={'Share 15:10'} onClick={onClick}>
+    <Button title={title} onClick={onClick}>
       <Download size={18} />
     </Button>
   </div>
