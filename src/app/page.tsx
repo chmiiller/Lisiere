@@ -39,6 +39,10 @@ export default function Home() {
   const [imagePath, setImagePath] = useState<string>('');
   const [debugMessage, setDebugMessage] = useState<string>('');
 
+  const updateDebugMessage = (message: string) => {
+    setDebugMessage((old) => old + ` ${message}`);
+  };
+
   const createImage = () => {
     mixpanel.track(MixpanelConstants.DownloadImageAttempt);
     if (containerRef.current) {
@@ -57,7 +61,13 @@ export default function Home() {
     }
   };
 
-  const shareImage = () => {
+  function checkBasicFileShare() {
+    const txt = new Blob(['Hello, world!'], { type: 'text/plain' });
+    const file = new File([txt], 'test.txt');
+    return navigator.canShare({ files: [file] });
+  }
+
+  const shareImage = async () => {
     if (containerRef.current) {
       const container = containerRef.current;
       html2canvas(container).then((canvas) => {
@@ -68,18 +78,39 @@ export default function Home() {
             const imageFile = new File([imageBlob], 'yourImageFileName.jpg', {
               type: imageBlob.type,
             });
-            const files = [imageFile];
-            const title = 'Lisiere is sharing...';
-            const text = 'carlos 123';
-            const url = 'https://lisiere.vercel.app/';
-            if (navigator.canShare({ files: [imageFile] })) {
-              try {
-                await navigator.share({ files, title, text, url });
-              } catch (error) {
-                setDebugMessage(error + '');
+            const selectedFiles = [imageFile];
+
+            // New test
+            if (selectedFiles && selectedFiles.length > 0) {
+              if (!navigator.canShare) {
+                updateDebugMessage(
+                  'Warning: canShare is not supported. File sharing may not be supported at all.',
+                );
+              } else if (!checkBasicFileShare()) {
+                updateDebugMessage(
+                  'Error: File sharing is not supported in this browser.',
+                );
+                return;
+              } else if (!navigator.canShare({ files: selectedFiles })) {
+                updateDebugMessage(
+                  'Error: share() does not support the given files',
+                );
+                for (const file of selectedFiles) {
+                  updateDebugMessage(
+                    `File info: name - ${file.name}, size ${file.size}, type ${file.type}`,
+                  );
+                }
+                return;
               }
-            } else {
-              setDebugMessage('navigator.canShare is false');
+            }
+
+            try {
+              await navigator.share({
+                files: selectedFiles,
+              });
+              updateDebugMessage('Successfully sent share');
+            } catch (error) {
+              updateDebugMessage('Error sharing: ' + error);
             }
           }
         });
@@ -112,7 +143,11 @@ export default function Home() {
       {/* Form container */}
       <div className="mt-1 flex w-full max-w-4xl flex-col p-1">
         <DownloadButton onClick={createImage} />
-        <ShareButton onClick={shareImage} />
+        <ShareButton
+          onClick={async () => {
+            await shareImage();
+          }}
+        />
         {/* ISO Select */}
         <ISOSelect value={exif.iso} onChange={(value) => setIso(value)} />
         {/* Focal Length */}
