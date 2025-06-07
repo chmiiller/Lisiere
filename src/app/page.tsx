@@ -106,6 +106,25 @@ export default function Home() {
       }
     });
   }
+  async function generateFileFromCanvas(
+    canvas: HTMLCanvasElement,
+  ): Promise<File | null> {
+    return new Promise<File | null>((resolve) => {
+      canvas.toBlob(
+        (imageBlob: Blob | null) => {
+          if (imageBlob) {
+            const imageFile = new File([imageBlob], 'yourImageFileName.jpg', {
+              type: imageBlob.type,
+            });
+            resolve(imageFile);
+          } else {
+            resolve(null);
+          }
+        },
+        'image/jpeg', // Optional: Specify the image format (MIME type).  'image/png' is also valid.
+      );
+    });
+  }
 
   return (
     <div
@@ -136,27 +155,17 @@ export default function Home() {
           onClick={async () => {
             const canvas = await generateCanvasFromHTML();
             if (canvas) {
-              canvas.toBlob(async (imageBlob: Blob | null) => {
-                if (imageBlob) {
-                  const imageFile = new File(
-                    [imageBlob],
-                    'yourImageFileName.jpg',
-                    {
-                      type: imageBlob.type,
-                    },
-                  );
-                  const selectedFiles = [imageFile];
-
-                  try {
-                    await navigator.share({
-                      files: selectedFiles,
-                    });
-                    updateDebugMessage('Successfully sent share');
-                  } catch (error) {
-                    updateDebugMessage('Error sharing: ' + error);
-                  }
+              const file = await generateFileFromCanvas(canvas);
+              if (file) {
+                try {
+                  await navigator.share({
+                    files: [file],
+                  });
+                  updateDebugMessage('Successfully sent share');
+                } catch (error) {
+                  updateDebugMessage('Error sharing: ' + error);
                 }
-              });
+              }
             }
           }}
         />
@@ -257,7 +266,7 @@ const DownloadButton = ({ onClick }: { onClick: () => void }) => (
 
 const ShareButton = ({ onClick }: { onClick: () => void }) => (
   <div className="mt-3 flex w-full justify-center">
-    <Button title={'Share 14:56'} onClick={onClick}>
+    <Button title={'Share 15:10'} onClick={onClick}>
       <Download size={18} />
     </Button>
   </div>
