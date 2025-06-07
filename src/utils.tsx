@@ -156,3 +156,42 @@ export const formatFileSize = (bytes: number): string => {
   const multiplier = Math.floor(Math.log(bytes) / Math.log(1024));
   return `${(bytes / Math.pow(1024, multiplier)).toFixed(2)} ${suffixes[multiplier]}`;
 };
+
+export const getFileName = (fileName: string): string => {
+  const lastDotIndex = fileName.lastIndexOf('.');
+  if (lastDotIndex === -1) {
+    // No extension found.  Return the entire string.
+    return fileName;
+  }
+  return fileName.substring(0, lastDotIndex);
+};
+
+export const isMobile = (): boolean => {
+  if (typeof navigator === 'undefined') return false;
+  const userAgent = navigator.userAgent.toLowerCase();
+  const mobileRegex =
+    /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/;
+  return mobileRegex.test(userAgent);
+};
+
+export const getPlatform = (): 'apple' | 'other' => {
+  if (typeof navigator === 'undefined') return 'other';
+
+  const userAgent = navigator.userAgent.toLowerCase();
+
+  if (
+    userAgent.includes('iphone') ||
+    userAgent.includes('ipad') ||
+    (userAgent.includes('mac') && 'ontouchend' in document.documentElement) ||
+    (userAgent.includes('crios') && userAgent.includes('apple'))
+  ) {
+    return 'apple';
+  } else if (
+    userAgent.includes('macintosh') &&
+    userAgent.includes('mac os x')
+  ) {
+    return 'apple';
+  } else {
+    return 'other';
+  }
+};

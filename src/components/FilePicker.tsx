@@ -4,10 +4,15 @@ import React, { useRef, useState } from 'react';
 
 import { MixpanelConstants } from '@/lib/mixpanelClient';
 import { useLisiereStore } from '@/store-provider';
-import { formatFileSize, getValidFileType, parseExif } from '@/utils';
+import {
+  formatFileSize,
+  getFileName,
+  getValidFileType,
+  parseExif,
+} from '@/utils';
 
 type FilePickerProps = {
-  onImageSelected: (fileUrl: string) => void;
+  onImageSelected: (fileUrl: string, fileName: string) => void;
 };
 
 const FilePicker = ({ onImageSelected }: FilePickerProps) => {
@@ -40,7 +45,8 @@ const FilePicker = ({ onImageSelected }: FilePickerProps) => {
         if (getValidFileType(file)) {
           readExif(file);
           const imageSrc = URL.createObjectURL(file);
-          onImageSelected(imageSrc);
+          const imageName = getFileName(file.name);
+          onImageSelected(imageSrc, imageName);
           mixpanel.track(MixpanelConstants.ReadImageSuccess);
         } else {
           setErrorMessage('invalid file');

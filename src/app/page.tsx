@@ -1,7 +1,7 @@
 'use client';
 
 import html2canvas from 'html2canvas-pro';
-import { ArrowUpFromLine, Download } from 'lucide-react';
+import { ArrowUpFromLine, Download, Share, Share2 } from 'lucide-react';
 import mixpanel from 'mixpanel-browser';
 import React, { useRef, useState } from 'react';
 
@@ -14,6 +14,7 @@ import ISOSelect from '@/components/ISOSelect';
 import LogoSelect, { LogoOption } from '@/components/LogoSelect';
 import { MixpanelConstants } from '@/lib/mixpanelClient';
 import { useLisiereStore } from '@/store-provider';
+import { getPlatform } from '@/utils';
 
 export default function Home() {
   const {
@@ -37,67 +38,19 @@ export default function Home() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [imagePath, setImagePath] = useState<string>('');
+  const [imageName, setImageName] = useState<string>('');
   const [debugMessage, setDebugMessage] = useState<string>('');
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const platform = getPlatform();
 
   const updateDebugMessage = (message: string) => {
     setDebugMessage((old) => old + ` ${message}`);
   };
 
-  const createImage = () => {
-    mixpanel.track(MixpanelConstants.DownloadImageAttempt);
-    if (containerRef.current) {
-      const container = containerRef.current;
-      html2canvas(container).then((canvas) => {
-        // Convert the canvas to a JPG image
-        const image = canvas.toDataURL('image/jpeg', 1.0);
-
-        // Create a link to download the image
-        const link = document.createElement('a');
-        link.href = image;
-        link.download = 'lisiere-image.jpg';
-        link.click();
-        mixpanel.track(MixpanelConstants.DownloadImageSuccess);
-      });
-    }
-  };
-
-  /*
-  Function checkBasicFileShare() {
-    const txt = new Blob(['Hello, world!'], { type: 'text/plain' });
-    const file = new File([txt], 'test.txt');
-    return navigator.canShare({ files: [file] });
-  }
-
-  const shareImage = async () => {
-    if (containerRef.current) {
-      const container = containerRef.current;
-      html2canvas(container).then((canvas) => {
-        canvas.toBlob(async (imageBlob) => {
-          if (imageBlob) {
-            const imageFile = new File([imageBlob], 'yourImageFileName.jpg', {
-              type: imageBlob.type,
-            });
-            const selectedFiles = [imageFile];
-            try {
-              await navigator.share({
-                files: selectedFiles,
-              });
-              updateDebugMessage('Successfully sent share');
-            } catch (error) {
-              updateDebugMessage('Error sharing: ' + error);
-            }
-          }
-        });
-      });
-    }
-  };
-*/
-  async function generateCanvasFromHTML(): Promise<HTMLCanvasElement | null> {
-    return new Promise<HTMLCanvasElement | null>((resolve) => {
+  const createImage = (): Promise<HTMLCanvasElement | null> =>
+    new Promise((resolve) => {
       if (containerRef.current) {
-        const container = containerRef.current;
-        html2canvas(container)
+        html2canvas(containerRef.current)
           .then((canvas) => {
             resolve(canvas);
           })
@@ -106,26 +59,61 @@ export default function Home() {
           });
       }
     });
-  }
-  async function generateFileFromCanvas(
-    canvas: HTMLCanvasElement,
-  ): Promise<File | null> {
-    return new Promise<File | null>((resolve) => {
-      canvas.toBlob(
-        (imageBlob: Blob | null) => {
-          if (imageBlob) {
-            const imageFile = new File([imageBlob], 'yourImageFileName.jpg', {
-              type: imageBlob.type,
-            });
-            resolve(imageFile);
-          } else {
-            resolve(null);
-          }
-        },
-        'image/jpeg', // Optional: Specify the image format (MIME type).  'image/png' is also valid.
-      );
+
+  const generateFile = (canvas: HTMLCanvasElement): Promise<File | null> =>
+    new Promise<File | null>((resolve) => {
+      canvas.toBlob((imageBlob: Blob | null) => {
+        if (imageBlob) {
+          const imageFile = new File([imageBlob], `${imageName}.jpg`, {
+            type: imageBlob.type,
+          });
+          resolve(imageFile);
+        } else {
+          resolve(null);
+        }
+      }, 'image/jpeg');
     });
-  }
+
+  const downloadImage = async () => {
+    mixpanel.track(MixpanelConstants.DownloadImageAttempt);
+    const canvas = await createImage();
+    if (canvas) {
+      const image = canvas.toDataURL('image/jpeg', 1.0);
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = `${imageName}-lisiere.jpg`;
+      link.click();
+      mixpanel.track(MixpanelConstants.DownloadImageSuccess);
+    }
+  };
+
+  const shareImage = async () => {
+    if (selectedFiles.length === 0) {
+      mixpanel.track(MixpanelConstants.ShareImageAttempt);
+      const canvas = await createImage();
+      if (canvas) {
+        const file = await generateFile(canvas);
+        if (file) {
+          const fileArray: File[] = [file];
+          setSelectedFiles(fileArray);
+        }
+      }
+    } else {
+      if (selectedFiles) {
+        try {
+          await navigator.share({
+            files: selectedFiles,
+          });
+          mixpanel.track(MixpanelConstants.ShareImageSuccess);
+          updateDebugMessage('Successfully sent share');
+        } catch (error) {
+          mixpanel.track(MixpanelConstants.ShareImageFail);
+          updateDebugMessage('Error sharing: ' + error);
+        }
+        setSelectedFiles([]);
+      }
+    }
+  };
 
   return (
     <div
@@ -143,40 +131,22 @@ export default function Home() {
         )}
         {!imagePath && (
           <FilePicker
-            onImageSelected={(imagePath) => {
+            onImageSelected={(imagePath, fileName) => {
               setImagePath(imagePath);
+              setImageName(fileName);
             }}
           />
         )}
       </div>
       {/* Form container */}
       <div className="mt-1 flex w-full max-w-4xl flex-col p-1">
-        <DownloadButton onClick={createImage} />
+        <DownloadButton onClick={downloadImage} />
         <ShareButton
-          title={selectedFiles.length === 0 ? 'Generate' : 'Share'}
-          onClick={async () => {
-            if (selectedFiles.length === 0) {
-              const canvas = await generateCanvasFromHTML();
-              if (canvas) {
-                const file = await generateFileFromCanvas(canvas);
-                if (file) {
-                  const fileArray: File[] = [file];
-                  setSelectedFiles(fileArray);
-                }
-              }
-            } else {
-              if (selectedFiles) {
-                try {
-                  await navigator.share({
-                    files: selectedFiles,
-                  });
-                  updateDebugMessage('Successfully sent share');
-                } catch (error) {
-                  updateDebugMessage('Error sharing: ' + error);
-                }
-              }
-            }
-          }}
+          title={
+            selectedFiles.length === 0 ? 'Click to share' : 'Ready to Share'
+          }
+          onClick={shareImage}
+          platform={platform}
         />
         {/* ISO Select */}
         <ISOSelect value={exif.iso} onChange={(value) => setIso(value)} />
@@ -276,13 +246,15 @@ const DownloadButton = ({ onClick }: { onClick: () => void }) => (
 const ShareButton = ({
   onClick,
   title,
+  platform,
 }: {
   onClick: () => void;
   title: string;
+  platform: 'apple' | 'other';
 }) => (
   <div className="mt-3 flex w-full justify-center">
     <Button title={title} onClick={onClick}>
-      <Download size={18} />
+      {platform === 'apple' ? <Share size={18} /> : <Share2 size={18} />}
     </Button>
   </div>
 );

@@ -15,6 +15,9 @@ export const initMixpanel = () => {
 type MixpanelConstantsType =
   | 'DownloadImageAttempt'
   | 'DownloadImageSuccess'
+  | 'ShareImageAttempt'
+  | 'ShareImageSuccess'
+  | 'ShareImageFail'
   | 'ChangedCameraLogo'
   | 'NoImageSelected'
   | 'SelectedImage'
@@ -33,6 +36,9 @@ type MixpanelConstantsType =
 export const MixpanelConstants: { [key in MixpanelConstantsType]: key } = {
   DownloadImageAttempt: 'DownloadImageAttempt',
   DownloadImageSuccess: 'DownloadImageSuccess',
+  ShareImageAttempt: 'ShareImageAttempt',
+  ShareImageSuccess: 'ShareImageSuccess',
+  ShareImageFail: 'ShareImageFail',
   ChangedCameraLogo: 'ChangedCameraLogo',
   NoImageSelected: 'NoImageSelected',
   SelectedImage: 'SelectedImage',
