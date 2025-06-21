@@ -20,7 +20,7 @@ const eslintConfig = [
   },
   {
     rules: {
-      "capitalized-comments": ["error", "always"],
+      "capitalized-comments": "never",
       'no-console': "error",
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",

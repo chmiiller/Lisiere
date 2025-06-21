@@ -3,7 +3,8 @@
 import html2canvas from 'html2canvas-pro';
 import { ArrowUpFromLine, Download, Share, Share2 } from 'lucide-react';
 import mixpanel from 'mixpanel-browser';
-import React, { useRef, useState } from 'react';
+import Link from 'next/link';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import Button from '@/components/Button';
 import DatePicker from '@/components/DatePicker';
@@ -15,8 +16,11 @@ import LogoSelect, { LogoOption } from '@/components/LogoSelect';
 import { MixpanelConstants } from '@/lib/mixpanelClient';
 import { useLisiereStore } from '@/store-provider';
 import { getPlatform } from '@/utils';
+import { createClient } from '@/utils/supabase/client';
 
 export default function Home() {
+  const supabase = createClient();
+
   const {
     setIso,
     setFocalLength,
@@ -39,9 +43,32 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [imagePath, setImagePath] = useState<string>('');
   const [imageName, setImageName] = useState<string>('');
+  const [userEmail, setUserEmail] = useState<string>('');
   const [debugMessage, setDebugMessage] = useState<string>('');
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const platform = getPlatform();
+
+  const getProfile = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.auth.getUser();
+      if (error) {
+        console.log(error);
+        throw error;
+      }
+      if (data?.user?.email) {
+        setUserEmail(data?.user?.email);
+      }
+    } catch (error) {
+      console.log(
+        `---------------------> home error: ${JSON.stringify(error, null, '    ')}`,
+      );
+    }
+  }, [supabase]);
+
+  useEffect(() => {
+    getProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const updateDebugMessage = (message: string) => {
     setDebugMessage((old) => old + ` ${message}`);
@@ -120,6 +147,13 @@ export default function Home() {
       className={`flex min-h-screen w-full flex-col items-center justify-center p-3 pb-20 font-[family-name:var(--font-geist-sans)]`}
     >
       <p>{debugMessage}</p>
+      <Link href={userEmail ? '/account' : '/login'}>
+        <div
+          className={`mb-3 flex w-auto max-w-32 cursor-pointer flex-row items-center justify-center rounded-md border-violet-500 bg-fuchsia-700 p-2 hover:bg-fuchsia-800`}
+        >
+          {userEmail ? 'Account' : 'Login'}
+        </div>
+      </Link>
       <div className="flex w-full max-w-sm flex-col p-1 sm:max-w-sm md:max-w-md lg:max-w-lg">
         {imagePath && (
           // Image and Footer to be rendered in the end

@@ -12,6 +12,8 @@
     "tsc": "npx tsc"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.50.0",
     "exifreader": "^4.26.1",
     "html2canvas-pro": "^1.5.8",
     "lucide-react": "^0.474.0",

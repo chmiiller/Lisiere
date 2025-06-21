@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { HTMLInputTypeAttribute, useEffect, useState } from 'react';
 
 type InputTextProps = {
   id: string;
   label?: string;
   limit?: number;
   numeric?: boolean;
+  inputType?: HTMLInputTypeAttribute;
   value?: string;
   onChange: (value: string) => void;
 };
@@ -14,6 +15,7 @@ export default function InputText({
   label,
   limit,
   numeric,
+  inputType = 'text',
   value,
   onChange,
 }: InputTextProps) {
@@ -40,7 +42,7 @@ export default function InputText({
         id={id}
         name={id}
         value={inputValue}
-        type="text"
+        type={inputType}
         maxLength={limit || undefined}
         onChange={(e) => {
           setInputValue(e.currentTarget.value);
